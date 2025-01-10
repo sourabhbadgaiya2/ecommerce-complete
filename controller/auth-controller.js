@@ -1,6 +1,5 @@
-import { errorHandler } from "../helpers/ErrorHandler.js";
-import redisClient from "../helpers/redisClient.js";
-import User from "../models/user.models.js";
+import redisClient from "../config/redis-client.js";
+import User from "../models/user.model.js";
 
 export const userSignup = async (req, res, next) => {
   const { name, email, password } = req.body; // Destructure the request body
@@ -25,14 +24,13 @@ export const userSignup = async (req, res, next) => {
       user: newUser,
     });
   } catch (err) {
-    const errorMessage = errorHandler(err);
     // Respond with the error message
-    res.status(400).json({ error: errorMessage });
+    console.log(err.message);
   }
 };
 
 export const userSignin = async (req, res, next) => {
-  const { email, password } = req.body; // Destructure the request body
+  const { email, password } = req.body;
 
   try {
     // Check if the user with the same email already exists
@@ -41,7 +39,7 @@ export const userSignin = async (req, res, next) => {
       return res.status(400).json({ error: "Email and password don't match" });
     }
 
-    // if user is found make sure the email and password match
+    // if user is found j sure the email and password match
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
@@ -60,9 +58,8 @@ export const userSignin = async (req, res, next) => {
       token,
     });
   } catch (err) {
-    const errorMessage = errorHandler(err);
     // Respond with the error message
-    res.status(400).json({ error: errorMessage });
+    console.log(err.message);
   }
 };
 

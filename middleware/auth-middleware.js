@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import redisClient from "../helpers/redisClient.js";
+import redisClient from "../config/redis-client.js";
 import { errorHandler } from "../helpers/ErrorHandler.js";
 
-const authMiddleware = async (req, res, next) => {
+export const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token; // Token cookies se le rahe hain
 
   if (!token) {
@@ -21,7 +21,7 @@ const authMiddleware = async (req, res, next) => {
     // JWT validation
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // Decoded data ko request object me attach karna
-    console.log("Authenticated User:", decoded);
+    // console.log("Authenticated User:", decoded);
 
     next(); // Successfully authenticated, aage request process karein
   } catch (err) {
@@ -33,7 +33,11 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-
-
-
-export default authMiddleware;
+export const isAdminAuth = (req, res, next) => {
+  if (req.user.role === 0) {
+    return res
+      .status(403)
+      .json({ message: "Forbidden! Admin access required." });
+  }
+  next();
+};

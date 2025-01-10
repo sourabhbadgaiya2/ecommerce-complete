@@ -20,17 +20,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    about: {
-      type: String,
-      trim: true,
-    },
     role: {
       type: Number,
       default: 0,
-    },
-    history: {
-      type: Array,
-      default: [],
     },
   },
   { timestamps: true }

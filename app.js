@@ -1,13 +1,15 @@
-import dotenv from "dotenv";
-dotenv.config();
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
+import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
-import authRoutes from "./routes/auth.routes.js";
-import userRoutes from "./routes/user.routes.js";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
+//  Import Files
 import connectDB from "./config/db.js";
+import authRoutes from "./routes/auth-routes.js";
+import userRoutes from "./routes/user-routes.js";
+import categoryRoutes from "./routes/category-routes.js";
+import productRoutes from "./routes/product-routes.js";
 
 const app = express();
 
@@ -17,10 +19,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // routes
-app.use("/api/auth", authRoutes);
-app.use("/api/auth", userRoutes);
+app.use("/api", authRoutes);
+app.use("/api", userRoutes);
+app.use("/api", categoryRoutes);
+app.use("/api", productRoutes);
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
   connectDB();
