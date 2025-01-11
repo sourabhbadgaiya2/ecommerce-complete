@@ -1,10 +1,8 @@
 import jwt from "jsonwebtoken";
 import redisClient from "../config/redis-client.js";
-import { errorHandler } from "../helpers/ErrorHandler.js";
 
 export const authMiddleware = async (req, res, next) => {
-  const token = req.cookies.token; // Token cookies se le rahe hain
-
+  const token = req.cookies.token;
   if (!token) {
     return res.status(401).json({ message: "Unauthorized! Token missing." });
   }
@@ -20,16 +18,12 @@ export const authMiddleware = async (req, res, next) => {
 
     // JWT validation
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Decoded data ko request object me attach karna
-    // console.log("Authenticated User:", decoded);
-
-    next(); // Successfully authenticated, aage request process karein
+    req.user = decoded;
+    next();
   } catch (err) {
-    console.error("Auth Middleware Error:", err);
-    const errorMessage = errorHandler(err);
     return res
       .status(401)
-      .json({ message: "Invalid token or server error!", errorMessage });
+      .json({ message: "Invalid token or server error!", error: err.message });
   }
 };
 

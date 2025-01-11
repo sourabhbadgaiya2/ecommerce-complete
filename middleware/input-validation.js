@@ -1,10 +1,6 @@
 import { validationResult, check } from "express-validator";
-/**
- * Middleware for validating user signup inputs
- * (Signup inputs ke validation ke liye middleware)
- */
+
 export const userSignupValidator = [
-  // Name validation
   check("name", "Name is required").notEmpty(),
 
   // Email validation
@@ -27,10 +23,9 @@ export const userSignupValidator = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // Return the first error message
       return res.status(400).json({ error: errors.array()[0].msg });
     }
-    next(); // Proceed if no validation errors
+    next();
   },
 ];
 
@@ -58,6 +53,6 @@ export const userSigninValidator = [
       // Return the first error message
       return res.status(400).json({ error: errors.array()[0].msg });
     }
-    next(); // Proceed if no validation errors
+    next();
   },
 ];

@@ -7,18 +7,18 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
-      required: true,
-      maxlength: 32,
+      required: [true, "User name is required."],
+      maxlength: [32, "User name cannot exceed 32 characters."],
     },
     email: {
       type: String,
       trim: true,
-      required: true,
-      unique: true,
+      required: [true, "Email is required."],
+      unique: [true, "This email is already registered."],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password is required."],
     },
     role: {
       type: Number,
@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Instance Method: Generate JWT token
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     { _id: this._id, role: this.role },
@@ -39,10 +40,12 @@ userSchema.methods.generateAuthToken = function () {
   return token;
 };
 
+// Instance Method: Compare password
 userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
+// Static Method: Hash password
 userSchema.statics.hashPassword = async function (password) {
   return await bcrypt.hash(password, 10);
 };
