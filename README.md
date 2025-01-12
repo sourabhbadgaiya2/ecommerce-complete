@@ -305,3 +305,135 @@ curl -X GET \
 - Authentication token must be included in the request header
 - The product ID must be a valid MongoDB ObjectId
 - The response includes complete product details including image data
+
+// ...existing code...
+
+## Update Product
+
+**Purpose**: Update an existing product's information and/or image.
+
+### PUT /api/product/:id
+
+Requires authentication and admin privileges.
+
+#### URL Parameters
+
+| Parameter | Type   | Description                 |
+| --------- | ------ | --------------------------- |
+| id        | string | MongoDB ObjectId of product |
+
+#### Request Body (multipart/form-data)
+
+| Field       | Type    | Description                           |
+| ----------- | ------- | ------------------------------------- |
+| name        | string  | Optional, max length: 32 characters   |
+| price       | number  | Optional                              |
+| description | string  | Optional, max length: 2000 characters |
+| category    | string  | Optional (Category ObjectId)          |
+| stock       | number  | Optional                              |
+| shipping    | boolean | Optional                              |
+| images      | file    | Optional                              |
+
+#### Example Request
+
+```bash
+curl -X PUT \
+  'http://your-api/api/product/60c72b2f9b1d8c001c8e4b8e' \
+  -H 'Authorization: Bearer your-token' \
+  -F 'price=199.99' \
+  -F 'stock=50'
+```
+
+#### Success Response (200 OK)
+
+```json
+{
+  "message": "Product updated successfully",
+  "product": {
+    "_id": "60c72b2f9b1d8c001c8e4b8e",
+    "name": "Product Name",
+    "price": 199.99,
+    "stock": 50,
+    "description": "Product description",
+    "category": "categoryId",
+    "shipping": true,
+    "images": {
+      "data": "binary_data",
+      "contentType": "image/jpeg"
+    },
+    "sold": 0,
+    "updatedAt": "2023-12-25T11:00:00.000Z"
+  }
+}
+```
+
+## Delete Product
+
+**Purpose**: Remove a product from the database.
+
+### DELETE /api/product/:id
+
+Requires authentication and admin privileges.
+
+#### URL Parameters
+
+| Parameter | Type   | Description                 |
+| --------- | ------ | --------------------------- |
+| id        | string | MongoDB ObjectId of product |
+
+#### Example Request
+
+```bash
+curl -X DELETE \
+  'http://your-api/api/product/60c72b2f9b1d8c001c8e4b8e' \
+  -H 'Authorization: Bearer your-token'
+```
+
+#### Success Response (200 OK)
+
+```json
+{
+  "message": "Product Deleted successfully."
+}
+```
+
+#### Error Responses (for both Update and Delete)
+
+**404 Not Found**
+
+```json
+{
+  "message": "Product not found. Please check the product ID and try again."
+}
+```
+
+**401 Unauthorized**
+
+```json
+{
+  "message": "Access denied. No token provided."
+}
+```
+
+**403 Forbidden**
+
+```json
+{
+  "message": "Admin resource! Access denied."
+}
+```
+
+**500 Internal Server Error**
+
+```json
+{
+  "message": "Server error"
+}
+```
+
+#### Notes
+
+- Only admin users can update or delete products
+- For updates, only include fields that need to be changed
+- Image update is optional during product update
+- All delete operations are permanent and cannot be undone
