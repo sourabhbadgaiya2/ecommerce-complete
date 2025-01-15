@@ -28,7 +28,7 @@ export const authMiddleware = async (req, res, next) => {
 };
 
 export const isAdminAuth = (req, res, next) => {
-  if (req.user.role === 0) {
+  if (req.user.role !== "admin") {
     return res
       .status(403)
       .json({ message: "Forbidden! Admin access required." });

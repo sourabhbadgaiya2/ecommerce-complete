@@ -4,7 +4,7 @@
 
 **Purpose**: Register a new user in the system with name, email, and password.
 
-### POST /api/auth/signup
+### POST /api/signup
 
 #### Request Body
 
@@ -52,7 +52,7 @@
 
 **Purpose**: Authenticate a user and provide a JWT token.
 
-### POST /api/auth/signin
+### POST /api/signin
 
 #### Request Body
 
@@ -96,7 +96,7 @@
 
 **Purpose**: Invalidate user's token and end the session.
 
-### POST /api/auth/signout
+### POST /api/signout
 
 Requires authentication token in cookie.
 
@@ -118,11 +118,11 @@ Requires authentication token in cookie.
 
 # Product API Documentation
 
-## Create Product
+## Create Products
 
 **Purpose**: Create a new product with image upload support.
 
-### POST /api/product/create
+### POST /api/products/create
 
 Requires authentication and admin privileges.
 
@@ -142,7 +142,7 @@ Requires authentication and admin privileges.
 
 ```bash
 curl -X POST \
-  'http://your-api/api/product/create' \
+  'http://your-api/api/products/create' \
   -H 'Authorization: Bearer your-token' \
   -F 'name=Product Name' \
   -F 'price=99.99' \
@@ -240,7 +240,7 @@ curl -X POST \
 
 **Purpose**: Retrieve detailed information about a specific product.
 
-### GET /api/product/:id
+### GET /api/products/:id
 
 Requires authentication.
 
@@ -254,7 +254,7 @@ Requires authentication.
 
 ```bash
 curl -X GET \
-  'http://your-api/api/product/60c72b2f9b1d8c001c8e4b8e' \
+  'http://your-api/api/products/60c72b2f9b1d8c001c8e4b8e' \
   -H 'Authorization: Bearer your-token'
 ```
 
@@ -312,7 +312,7 @@ curl -X GET \
 
 **Purpose**: Update an existing product's information and/or image.
 
-### PUT /api/product/:id
+### PUT /api/products/:id
 
 Requires authentication and admin privileges.
 
@@ -338,7 +338,7 @@ Requires authentication and admin privileges.
 
 ```bash
 curl -X PUT \
-  'http://your-api/api/product/60c72b2f9b1d8c001c8e4b8e' \
+  'http://your-api/api/products/60c72b2f9b1d8c001c8e4b8e' \
   -H 'Authorization: Bearer your-token' \
   -F 'price=199.99' \
   -F 'stock=50'
@@ -369,9 +369,9 @@ curl -X PUT \
 
 ## Delete Product
 
-**Purpose**: Remove a product from the database.
+**Purpose**: Remove a products from the database.
 
-### DELETE /api/product/:id
+### DELETE /api/products/:id
 
 Requires authentication and admin privileges.
 
@@ -385,7 +385,7 @@ Requires authentication and admin privileges.
 
 ```bash
 curl -X DELETE \
-  'http://your-api/api/product/60c72b2f9b1d8c001c8e4b8e' \
+  'http://your-api/api/products/60c72b2f9b1d8c001c8e4b8e' \
   -H 'Authorization: Bearer your-token'
 ```
 
@@ -437,3 +437,167 @@ curl -X DELETE \
 - For updates, only include fields that need to be changed
 - Image update is optional during product update
 - All delete operations are permanent and cannot be undone
+
+// ...existing code...
+
+# Categories API Documentation
+
+## Create Category
+
+**Purpose**: Create a new product category.
+
+### POST /api/categories/create
+
+Requires authentication and admin privileges.
+
+#### Request Body
+
+| Field | Type   | Validation Rules                 |
+| ----- | ------ | -------------------------------- |
+| name  | string | Required, unique, max length: 32 |
+
+#### Example Request
+
+```json
+{
+  "name": "Electronics"
+}
+```
+
+#### Success Response (201 Created)
+
+```json
+{
+  "message": "Category created successfully",
+  "category": {
+    "_id": "60c72b2f9b1d8c001c8e4b8e",
+    "name": "Electronics",
+    "createdAt": "2023-12-25T10:00:00.000Z",
+    "updatedAt": "2023-12-25T10:00:00.000Z"
+  }
+}
+```
+
+## Get All Categories
+
+**Purpose**: Retrieve a list of all product categories.
+
+### GET /api/categories
+
+Requires authentication.
+
+#### Success Response (200 OK)
+
+```json
+{
+  "message": "Category found",
+  "categories": [
+    {
+      "_id": "60c72b2f9b1d8c001c8e4b8e",
+      "name": "Electronics",
+      "createdAt": "2023-12-25T10:00:00.000Z",
+      "updatedAt": "2023-12-25T10:00:00.000Z"
+    }
+    // ... more categories
+  ]
+}
+```
+
+## Update Category
+
+**Purpose**: Update an existing category's name.
+
+### PUT /api/categories/:id
+
+Requires authentication and admin privileges.
+
+#### URL Parameters
+
+| Parameter | Type   | Description                  |
+| --------- | ------ | ---------------------------- |
+| id        | string | MongoDB ObjectId of category |
+
+#### Request Body
+
+```json
+{
+  "name": "Updated Category Name"
+}
+```
+
+#### Success Response (200 OK)
+
+```json
+{
+  "message": "Category updated successfully",
+  "categories": {
+    "_id": "60c72b2f9b1d8c001c8e4b8e",
+    "name": "Updated Category Name",
+    "updatedAt": "2023-12-25T11:00:00.000Z"
+  }
+}
+```
+
+## Delete Category
+
+**Purpose**: Remove a category from the database.
+
+### DELETE /api/categories/:id
+
+Requires authentication and admin privileges.
+
+#### URL Parameters
+
+| Parameter | Type   | Description                  |
+| --------- | ------ | ---------------------------- |
+| id        | string | MongoDB ObjectId of category |
+
+#### Success Response (200 OK)
+
+```json
+{
+  "message": "Category deleted successfully"
+}
+```
+
+#### Error Responses (Common to all Category endpoints)
+
+**400 Bad Request**
+
+```json
+{
+  "message": "Category not found"
+}
+```
+
+or
+
+```json
+{
+  "message": "Category already exists"
+}
+```
+
+**401 Unauthorized**
+
+```json
+{
+  "message": "Access denied. No token provided."
+}
+```
+
+**403 Forbidden**
+
+```json
+{
+  "message": "Admin resource! Access denied."
+}
+```
+
+#### Notes
+
+- All category operations require authentication
+- Create, Update, and Delete operations require admin privileges
+- Category names must be unique
+- Maximum length for category name is 32 characters
+- Category operations are important as they are referenced in products

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import config from "../config/env.config.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,10 +20,12 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required."],
+      select: false,
     },
     role: {
-      type: Number,
-      default: 0,
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
     },
   },
   { timestamps: true }
@@ -32,7 +35,7 @@ const userSchema = new mongoose.Schema(
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     { _id: this._id, role: this.role },
-    process.env.JWT_SECRET,
+    config.JWT_SECRET,
     {
       expiresIn: "24h",
     }
