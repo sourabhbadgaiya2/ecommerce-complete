@@ -85,6 +85,42 @@ export const productsById = async (req, res, next) => {
   }
 };
 
+export const getAllProduct = async (req, res, next) => {
+  try {
+    const products = await Product.find()
+      .select("-images")
+      .populate("category");
+    res
+      .status(200)
+      .json({ message: "Products list fetched successfully!", products });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const showImages = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found." });
+    }
+
+    // Check karo agar product ki photo ki data property exist karti hai
+    if (product.images?.data) {
+      res.setHeader("Content-Type", product.images.contentType);
+
+      return res.status(200).send(product.images.data);
+    }
+
+    res.status(404).json({ message: "Photo not found." });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getCategories = async (req, res, next) => {
   try {
     // `distinct` se unique categories fetch karo

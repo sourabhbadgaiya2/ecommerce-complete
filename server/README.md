@@ -236,6 +236,88 @@ curl -X POST \
 - All protected routes require a valid JWT token
   // ...existing code...
 
+## Get All Products
+
+**Purpose**: Retrieve a list of all products available in the system.
+
+### GET /api/products
+
+Requires authentication.
+
+#### Example Request
+
+```bash
+curl -X GET \
+  'http://your-api/api/products' \
+  -H 'Authorization: Bearer your-token'
+```
+
+#### Success Response (200 OK)
+
+```json
+{
+  "message": "Products list fetched successfully!",
+  "products": [
+    {
+      "_id": "60c72b2f9b1d8c001c8e4b8e",
+      "name": "Product Name",
+      "price": 99.99,
+      "description": "Product description",
+      "category": {
+        "_id": "categoryId",
+        "name": "Category Name"
+      },
+      "stock": 100,
+      "shipping": true,
+      "sold": 0,
+      "createdAt": "2023-12-25T10:00:00.000Z",
+      "updatedAt": "2023-12-25T10:00:00.000Z"
+    },
+    {
+      "_id": "60c72b2f9b1d8c001c8e4b8f",
+      "name": "Another Product",
+      "price": 49.99,
+      "description": "Another product description",
+      "category": {
+        "_id": "categoryId2",
+        "name": "Category 2"
+      },
+      "stock": 50,
+      "shipping": false,
+      "sold": 10,
+      "createdAt": "2023-12-26T10:00:00.000Z",
+      "updatedAt": "2023-12-26T10:00:00.000Z"
+    }
+  ]
+}
+```
+
+#### Error Responses
+
+**401 Unauthorized**
+
+```json
+{
+  "message": "Access denied. No token provided."
+}
+```
+
+**500 Internal Server Error**
+
+```json
+{
+  "message": "An error occurred while fetching products."
+}
+```
+
+#### Notes
+
+- Authentication token must be included in the request header
+- The response includes all products except for the images, as images are excluded with .select("-images").
+- The response includes category details for each product through .populate("category").
+
+// ...existing code...
+
 ## Get Product By ID
 
 **Purpose**: Retrieve detailed information about a specific product.
@@ -437,6 +519,54 @@ curl -X DELETE \
 - For updates, only include fields that need to be changed
 - Image update is optional during product update
 - All delete operations are permanent and cannot be undone
+
+// ...existing code...
+
+### Show Product Image
+
+Get the image associated with a specific product.
+
+**Endpoint:** `GET /api/products/images/:id`
+
+**Authentication Required:** Yes
+
+**Parameters:**
+
+- `id`: Product ID (required)
+
+**Response:**
+
+- Success (200): Returns the image binary data with appropriate content type
+- Error (404): Returns when product or image is not found
+  ```json
+  {
+    "message": "Product not found."
+  }
+  ```
+  or
+  ```json
+  {
+    "message": "Photo not found."
+  }
+  ```
+- Error (500): Returns when server error occurs
+
+**Example Usage:**
+
+```javascript
+// Using fetch API
+const response = await axios.get("http://your-api/api/products/images/12345", {
+  headers: {
+    Authorization: "Bearer your-auth-token",
+  },
+});
+
+if (response.ok) {
+  const blob = await response.blob();
+  const imageUrl = URL.createObjectURL(blob);
+  // Use imageUrl in an img tag or as needed
+}
+```
 
 // ...existing code...
 

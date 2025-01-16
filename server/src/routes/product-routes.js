@@ -1,11 +1,13 @@
 import express from "express";
 import { authMiddleware, isAdminAuth } from "../middleware/auth-middleware.js";
 import {
+  getAllProduct,
   getCategories,
   listSearch,
   productsById,
   productsCreate,
   removeProducts,
+  showImages,
   updateProducts,
 } from "../controller/product-controller.js";
 import { productInputValidator } from "../middleware/input-validation.js";
@@ -22,7 +24,11 @@ router.post(
 
 router.get("/products/categories", authMiddleware, getCategories);
 
-router.post("/products/by/search", authMiddleware, listSearch)
+router.get("/products", authMiddleware, getAllProduct);
+
+router.post("/products/by/search", authMiddleware, listSearch);
+
+router.get("/products/images/:id", authMiddleware, showImages);
 
 router.get("/products/:id", authMiddleware, productsById);
 
