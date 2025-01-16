@@ -9,8 +9,8 @@ const useSignout = () => {
   const dispatch = useDispatch();
 
   const signout = async () => {
-    dispatch(ShowLoading());
     try {
+      dispatch(ShowLoading());
       const response = await axios.post("/api/signout");
       localStorage.removeItem("token");
       navigate("/signin");

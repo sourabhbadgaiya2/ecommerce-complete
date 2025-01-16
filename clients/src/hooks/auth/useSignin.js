@@ -15,8 +15,8 @@ const useSignin = () => {
     const success = handleInputError("signin", { email, password });
     if (!success) return;
 
-    dispatch(ShowLoading());
     try {
+      dispatch(ShowLoading());
       const response = await axios.post("/api/signin", { email, password });
 
       //   !localstorage

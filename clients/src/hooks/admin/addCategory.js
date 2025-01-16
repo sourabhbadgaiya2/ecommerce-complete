@@ -14,9 +14,9 @@ const addCategory = () => {
       toast.error("Fields are required");
       return false;
     }
-    dispatch(ShowLoading());
-
+    
     try {
+      dispatch(ShowLoading());
       const response = await axios.post("/api/categories/create", { name });
       toast.success(response.data.message);
       navigate("/admin-dashboard");

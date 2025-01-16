@@ -13,8 +13,8 @@ const useSignup = () => {
     const success = handleInputError("signup", { name, email, password });
     if (!success) return;
 
-    dispatch(ShowLoading());
     try {
+      dispatch(ShowLoading());
       const response = await axios.post("/api/signup", {
         name,
         email,

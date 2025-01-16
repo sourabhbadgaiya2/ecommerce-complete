@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import addProduct from "../../hooks/admin/addProduct";
 import DefaultLayout from "../../components/DefaultLayout";
+import getAllCategory from "../../hooks/getAllCategories";
 
 const AddProduct = () => {
+  const { user } = useSelector((state) => state.users);
+  const { createProducts } = addProduct();
+  const { categoriesData } = getAllCategory();
+
   const [products, setProducts] = useState({
     name: "",
     price: "",
@@ -13,10 +18,8 @@ const AddProduct = () => {
     shipping: "",
     stock: "",
     images: "",
+    formData: new FormData(),
   });
-
-  const { user } = useSelector((state) => state.users);
-  const { createProducts } = addProduct();
 
   const {
     name,
@@ -29,21 +32,18 @@ const AddProduct = () => {
     formData,
   } = products;
 
-  useEffect(() => {
-    setProducts({ ...products, formData: new FormData() });
-  }, []);
-
   const handleChange = (name) => (e) => {
     const productValue =
-      name === "images" ? e.target.value.files[0] : e.target.value;
+      name === "images" && e.target.files ? e.target.files[0] : e.target.value;
+    // Update the FormData object
     formData.set(name, productValue);
+    // Update state
     setProducts({ ...products, [name]: productValue });
   };
 
   const clickSubmit = async (e) => {
     e.preventDefault();
-
-    await createProducts(products);
+    await createProducts(products.formData);
   };
 
   return (
@@ -107,8 +107,8 @@ const AddProduct = () => {
                 type='number'
                 name='price'
                 className='w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none'
-                value={description}
-                onChange={handleChange("description")}
+                value={price}
+                onChange={handleChange("price")}
               />
             </div>
 
@@ -121,7 +121,12 @@ const AddProduct = () => {
                 className='w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none'
                 onChange={handleChange("category")}
               >
-                <option value='6785811b49dc2493293c6324'>Node</option>
+                {categoriesData &&
+                  categoriesData.map((item, idx) => (
+                    <option key={idx} value='{item._id}'>
+                      {item.name}
+                    </option>
+                  ))}
               </select>
             </div>
 
