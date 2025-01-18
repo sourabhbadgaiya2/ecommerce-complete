@@ -8,6 +8,7 @@ export const getUserById = async (req, res, next) => {
     }
     res.status(200).json({ message: "User found", user });
   } catch (error) {
+    console.log(error.message);
     next(error);
   }
 };
@@ -20,6 +21,7 @@ export const updateUser = async (req, res, next) => {
     }
     res.status(200).json({ user });
   } catch (error) {
+    console.log(error.message);
     next(error);
   }
 };

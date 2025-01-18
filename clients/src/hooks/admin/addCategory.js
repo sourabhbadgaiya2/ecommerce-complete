@@ -14,16 +14,14 @@ const addCategory = () => {
       toast.error("Fields are required");
       return false;
     }
-    
+
     try {
       dispatch(ShowLoading());
       const response = await axios.post("/api/categories/create", { name });
       toast.success(response.data.message);
       navigate("/admin-dashboard");
     } catch (error) {
-      dispatch(HideLoading());
-
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message);
     } finally {
       dispatch(HideLoading());
     }

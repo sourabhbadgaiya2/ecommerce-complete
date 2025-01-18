@@ -15,8 +15,8 @@ export const userSignup = async (req, res, next) => {
       user: newUser,
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
     next(error);
+    console.log(error.message);
   }
 };
 
@@ -28,7 +28,7 @@ export const userSignin = async (req, res, next) => {
     const { user, token } = await signInUser(email, password);
 
     res.cookie("token", token, {
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 3 * 60 * 60 * 1000),
       httpOnly: true,
     });
 
@@ -39,6 +39,7 @@ export const userSignin = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    console.log(error.message);
   }
 };
 
@@ -58,5 +59,6 @@ export const userSignout = async (req, res, next) => {
     res.status(200).json({ message: "Logout successful!" });
   } catch (error) {
     next(error);
+    console.log(error.message);
   }
 };

@@ -21,6 +21,7 @@ export const authMiddleware = async (req, res, next) => {
     req.user = decoded;
     next();
   } catch (err) {
+    next(err);
     return res
       .status(401)
       .json({ message: "Invalid token or server error!", error: err.message });

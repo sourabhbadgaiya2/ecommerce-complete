@@ -18,8 +18,8 @@ const getAllProducts = () => {
 
       setProducts(response.data.products);
     } catch (error) {
-      dispatch(HideLoading());
-      toast.error(error.response.data.message);
+   
+      toast.error(error.response?.data?.message);
     } finally {
       dispatch(HideLoading());
     }

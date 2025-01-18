@@ -121,9 +121,10 @@ const AddProduct = () => {
                 className='w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none'
                 onChange={handleChange("category")}
               >
+                <option value=''>Select</option>
                 {categoriesData &&
                   categoriesData.map((item, idx) => (
-                    <option key={idx} value='{item._id}'>
+                    <option key={idx} value={item._id}>
                       {item.name}
                     </option>
                   ))}
@@ -139,6 +140,7 @@ const AddProduct = () => {
                 className='w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none'
                 onChange={handleChange("shipping")}
               >
+                <option value=''>Select</option>
                 <option value='0'>No</option>
                 <option value='1'>Yes</option>
               </select>

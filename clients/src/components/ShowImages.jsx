@@ -9,7 +9,7 @@ const ShowImages = ({ item }) => {
             item._id
           }`}
           alt={item.name}
-          className='h-96 w-96 object-cover transition-transform duration-300 ease-in-out hover:scale-110'
+          className='h-[30vh] w-full object-cover object-top transition-transform duration-300 ease-in-out hover:scale-110'
         />
       </div>
     </div>

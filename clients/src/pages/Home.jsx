@@ -3,6 +3,7 @@ import DefaultLayout from "../components/DefaultLayout";
 import { useSelector } from "react-redux";
 import getAllProducts from "../hooks/getAllProducts";
 import Card from "../components/Card";
+import Search from "../components/Search";
 
 const Home = () => {
   const { user } = useSelector((state) => state.users);
@@ -14,9 +15,9 @@ const Home = () => {
       description='Welcome to Ecommerce'
       className='container mx-auto p-6 bg-gray-50'
     >
-      <div className=''>
-        <h2 className='mb-4'>Best Sellers</h2>
-        <div className='flex flex-wrap gap-6 justify-center'>
+      <Search />
+      <div className='my-4'>
+        <div className='flex flex-wrap gap-6 justify-start'>
           {products &&
             products.map((product, idx) => (
               <Card key={idx} product={product} />

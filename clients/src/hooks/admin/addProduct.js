@@ -24,8 +24,8 @@ const addProduct = () => {
       toast.success(response.data.message);
       navigate("/admin-dashboard");
     } catch (error) {
-      dispatch(HideLoading());
-      toast.error(error.response.data.message);
+  
+      toast.error(error.response?.data?.message);
     } finally {
       dispatch(HideLoading());
     }

@@ -9,7 +9,7 @@ import { ShowLoading, HideLoading } from "../store/features/alertSlice";
 const getAllCategory = () => {
   const dispatch = useDispatch();
 
-  const [categoriesData, setCategoriesData] = useState([]);
+  const [categoriesData, setCategoriesData] = useState(null);
 
   const fetchCategories = async () => {
     try {
@@ -17,8 +17,7 @@ const getAllCategory = () => {
       const response = await axios.get("/api/categories");
       setCategoriesData(response.data.categories);
     } catch (error) {
-      dispatch(HideLoading());
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message);
     } finally {
       dispatch(HideLoading());
     }

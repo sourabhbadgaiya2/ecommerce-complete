@@ -9,11 +9,26 @@ import UserDashboard from "../pages/UserDashboard";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import AddCategory from "../pages/Admin/AddCategory";
 import AddProduct from "../pages/Admin/AddProduct";
+import Shop from "../pages/Shop";
 
 const AppRoutes = () => {
   return (
     <div>
       <Routes>
+        {/* //! Public routes */}
+
+        <Route path='/signin' element={<Signin />} />
+        <Route path='/signup' element={<Signup />} />
+
+        {/* //!Protected Routes */}
+        <Route
+          path='/user-dashboard'
+          element={
+            <Protected>
+              <UserDashboard />
+            </Protected>
+          }
+        />
         <Route
           path='/'
           element={
@@ -23,13 +38,14 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path='/user-dashboard'
+          path='/shop'
           element={
             <Protected>
-              <UserDashboard />
+              <Shop />
             </Protected>
           }
         />
+
         {/* //! Admin Routes */}
         <Route
           path='/admin-dashboard'
@@ -55,9 +71,7 @@ const AppRoutes = () => {
             </Protected>
           }
         />
-        {/* //! Public routes */}
-        <Route path='/signin' element={<Signin />} />
-        <Route path='/signup' element={<Signup />} />
+        {/* //!not found */}
         <Route path='*' element={<NotFound />} />
       </Routes>
     </div>

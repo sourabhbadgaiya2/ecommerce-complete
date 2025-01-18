@@ -15,6 +15,7 @@ export const create = async (req, res, next) => {
       .json({ message: "Category created successfully", category });
   } catch (error) {
     next(error);
+    console.log(error.message);
   }
 };
 
@@ -27,6 +28,7 @@ export const getCategoryById = async (req, res, next) => {
     res.status(200).json({ message: "Category found", categories });
   } catch (error) {
     next(error);
+    console.log(error.message);
   }
 };
 
@@ -39,6 +41,7 @@ export const getAllCategory = async (req, res, next) => {
     res.status(200).json({ message: "Category found", categories });
   } catch (error) {
     next(error);
+    console.log(error.message);
   }
 };
 
@@ -56,6 +59,7 @@ export const updateCategory = async (req, res, next) => {
       .json({ message: "Category updated successfully", categories });
   } catch (error) {
     next(error);
+    console.log(error.message);
   }
 };
 
@@ -68,5 +72,6 @@ export const deleteCategory = async (req, res, next) => {
     res.status(200).json({ message: "Category deleted successfully" });
   } catch (error) {
     next(error);
+    console.log(error.message);
   }
 };

@@ -1,5 +1,7 @@
 import express from "express";
 import { authMiddleware, isAdminAuth } from "../middleware/auth-middleware.js";
+import { productInputValidator } from "../middleware/input-validation.js";
+
 import {
   getAllProduct,
   getCategories,
@@ -10,7 +12,6 @@ import {
   showImages,
   updateProducts,
 } from "../controller/product-controller.js";
-import { productInputValidator } from "../middleware/input-validation.js";
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.get("/products/categories", authMiddleware, getCategories);
 
 router.get("/products", authMiddleware, getAllProduct);
 
-router.post("/products/by/search", authMiddleware, listSearch);
+router.get("/products/search", authMiddleware, listSearch);
 
 router.get("/products/images/:id", authMiddleware, showImages);
 

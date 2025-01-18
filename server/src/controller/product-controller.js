@@ -1,6 +1,8 @@
 import _ from "lodash";
 import formidable from "formidable";
+import mongoose from "mongoose";
 
+const { ObjectId } = mongoose.Types;
 import Product from "../models/product.model.js";
 import {
   createProduct,
@@ -24,6 +26,7 @@ export const productsCreate = async (req, res, next) => {
         product,
       });
     } catch (error) {
+      console.log(error.message);
       next(error);
     }
   });
@@ -46,6 +49,7 @@ export const updateProducts = async (req, res, next) => {
         product: updatedProduct,
       });
     } catch (error) {
+      console.log(error.message);
       next(error);
     }
   });
@@ -64,6 +68,7 @@ export const removeProducts = async (req, res, next) => {
 
     res.json({ message: "Product Deleted successfully." });
   } catch (error) {
+    console.log(error.message);
     next(error);
   }
 };
@@ -81,6 +86,7 @@ export const productsById = async (req, res, next) => {
 
     res.json({ message: "Product retrieved successfully.", product });
   } catch (error) {
+    console.log(error.message);
     next(error);
   }
 };
@@ -94,6 +100,7 @@ export const getAllProduct = async (req, res, next) => {
       .status(200)
       .json({ message: "Products list fetched successfully!", products });
   } catch (error) {
+    console.log(error.message);
     next(error);
   }
 };
@@ -117,6 +124,7 @@ export const showImages = async (req, res, next) => {
 
     res.status(404).json({ message: "Photo not found." });
   } catch (error) {
+    console.log(error.message);
     next(error);
   }
 };
@@ -128,6 +136,7 @@ export const getCategories = async (req, res, next) => {
 
     res.status(200).json(categories);
   } catch (error) {
+    console.log(error.message);
     next(error);
   }
 };
@@ -136,24 +145,33 @@ export const listSearch = async (req, res, next) => {
   try {
     const query = {};
 
-    // Add search condition to query
+    // Search text
     if (req.query.search) {
       query.name = { $regex: req.query.search, $options: "i" }; // Case-insensitive search
     }
 
-    // Add category condition to query
+    // Category condition
     if (req.query.category && req.query.category !== "All") {
-      query.category = req.query.category;
+      if (ObjectId.isValid(req.query.category)) {
+        query.category = new ObjectId(req.query.category); // Convert to ObjectId
+      } else {
+        return res.status(400).json({ message: "Invalid category ID" });
+      }
     }
 
-    // Fetch products based on query
-    const products = await Product.find(query).select("-photo");
+    // Query execute
+    const products = await Product.find(query)
+      .populate("category")
+      .select("-images");
+
+    // console.log(products)
 
     res.status(200).json({
       message: "Products fetched successfully",
       data: products,
     });
   } catch (error) {
+    console.error("Error:", error);
     next(error);
   }
 };
