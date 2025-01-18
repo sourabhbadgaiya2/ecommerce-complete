@@ -75,7 +75,7 @@ const Menu = () => {
                 Dashboard
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to='/shop'
                 className={`hover:text-orange-400 ${isActive(
@@ -85,7 +85,7 @@ const Menu = () => {
               >
                 Shop
               </Link>
-            </li>
+            </li> */}
 
             <li className='flex items-center'>
               <Link

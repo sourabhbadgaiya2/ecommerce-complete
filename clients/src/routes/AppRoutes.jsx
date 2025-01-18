@@ -10,6 +10,7 @@ import AdminDashboard from "../pages/Admin/AdminDashboard";
 import AddCategory from "../pages/Admin/AddCategory";
 import AddProduct from "../pages/Admin/AddProduct";
 import Shop from "../pages/Shop";
+import ProductDetails from "../pages/ProductDetails";
 
 const AppRoutes = () => {
   return (
@@ -37,11 +38,19 @@ const AppRoutes = () => {
             </Protected>
           }
         />
-        <Route
+        {/* <Route
           path='/shop'
           element={
             <Protected>
               <Shop />
+            </Protected>
+          }
+        /> */}
+        <Route
+          path='/products/:productId'
+          element={
+            <Protected>
+              <ProductDetails />
             </Protected>
           }
         />
@@ -71,7 +80,7 @@ const AppRoutes = () => {
             </Protected>
           }
         />
-        {/* //!not found */}
+        {/* //!Not found */}
         <Route path='*' element={<NotFound />} />
       </Routes>
     </div>

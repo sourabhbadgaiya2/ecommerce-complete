@@ -15,7 +15,7 @@ const AddProduct = () => {
     description: "",
     categories: [],
     category: "",
-    shipping: "",
+    // shipping: "",
     stock: "",
     images: "",
     formData: new FormData(),
@@ -27,7 +27,7 @@ const AddProduct = () => {
     price,
     categories,
     category,
-    shipping,
+    // shipping,
     stock,
     formData,
   } = products;
@@ -132,7 +132,7 @@ const AddProduct = () => {
             </div>
 
             {/* Shipping Dropdown */}
-            <div>
+            {/* <div>
               <label className='block text-sm font-medium text-gray-700 mb-1'>
                 Shipping
               </label>
@@ -144,7 +144,7 @@ const AddProduct = () => {
                 <option value='0'>No</option>
                 <option value='1'>Yes</option>
               </select>
-            </div>
+            </div> */}
 
             {/* Stock Input */}
             <div>

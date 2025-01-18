@@ -3,60 +3,43 @@ import getAllCategory from "../hooks/getAllCategories";
 import useSearch from "../hooks/useSearch";
 import toast from "react-hot-toast";
 import Card from "./Card";
+import { useDispatch } from "react-redux";
+import { HideLoading, ShowLoading } from "../store/features/alertSlice";
 
 const Search = () => {
   const { querySearch } = useSearch();
   const { categoriesData } = getAllCategory();
 
-  const [data, setData] = useState({
-    categories: [],
-    selectedCategory: "",
-    searchText: "",
-    result: null,
-    searched: false,
-  });
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [result, setResult] = useState(null);
 
-  const { categories, selectedCategory, searchText, result, searched } = data;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (categoriesData) {
-      setData((prevState) => ({
-        ...prevState,
-        categories: categoriesData,
-      }));
+      setCategories(categoriesData);
     }
   }, [categoriesData]);
 
-  const searchProduct = (result = []) => {
-    return (
-      result && result.map((product, i) => <Card key={i} product={product} />)
-    );
-  };
-
   const searchData = async () => {
     try {
+      dispatch(ShowLoading());
       const searchResults = await querySearch({
         search: searchText || undefined,
         category: selectedCategory || "All",
       });
-
-      setData((prevState) => ({
-        ...prevState,
-        result: searchResults,
-        searched: true,
-      }));
+      setResult(searchResults);
     } catch (error) {
-      toast.error("Search failed:", error);
+      dispatch(HideLoading());
+      toast.error(`Search failed: ${error.message}`);
     }
   };
 
   const searchSubmit = (e) => {
     e.preventDefault();
     searchData();
-  };
-
-  const handleChange = (name) => (e) => {
-    setData({ ...data, [name]: e.target.value, searched: false });
   };
 
   return (
@@ -67,25 +50,30 @@ const Search = () => {
             <div className='flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0'>
               <select
                 className='w-full sm:w-auto border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none'
-                onChange={handleChange("selectedCategory")}
+                onChange={(e) => setSelectedCategory(e.target.value)}
                 value={selectedCategory}
               >
                 <option value=''>Pick Category</option>
-                {categories.map((c, i) => (
+                {categories.map((c) => (
                   <option key={c._id} value={c._id}>
                     {c.name}
                   </option>
                 ))}
               </select>
 
-              <input
-                type='search'
-                className='w-full flex-1 border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none'
-                placeholder='Search by name'
-                onChange={handleChange("searchText")}
-                value={searchText}
-                // required
-              />
+              <div className='w-full flex-1'>
+                <label htmlFor='searchText' className='sr-only'>
+                  Search by name
+                </label>
+                <input
+                  id='searchText'
+                  type='search'
+                  className='w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+                  placeholder='Search by name'
+                  onChange={(e) => setSearchText(e.target.value)}
+                  value={searchText}
+                />
+              </div>
 
               <button
                 type='submit'
@@ -98,9 +86,13 @@ const Search = () => {
         </div>
       </div>
 
-      {/* //!Searched product */}
+      {/* Searched */}
       <div className='container-fluid mb-3'>
-        <div className='flex gap-4'>{searchProduct(result)}</div>
+        <div className='flex gap-4'>
+          {result && result.length > 0
+            ? result.map((product, i) => <Card key={i} product={product} />)
+            : ""}
+        </div>
       </div>
     </div>
   );

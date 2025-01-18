@@ -12,15 +12,15 @@ const Home = () => {
   return (
     <DefaultLayout
       title='Home Page'
-      description='Welcome to Ecommerce'
+      description={`Hello ${user?.name}.. Welcome to Ecommerce`}
       className='container mx-auto p-6 bg-gray-50'
     >
       <Search />
       <div className='my-4'>
-        <div className='flex flex-wrap gap-6 justify-start'>
+        <div className='flex flex-wrap gap-6 justify-center'>
           {products &&
             products.map((product, idx) => (
-              <Card key={idx} product={product} />
+              <Card imgHeight={"h-[45vh]"} key={idx} product={product} />
             ))}
         </div>
       </div>
