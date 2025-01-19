@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DefaultLayout from "../components/DefaultLayout";
-import getAllCategory from "../hooks/getAllCategories";
+import getAllCategory from "../hooks/useGetAllCategories";
 import search from "../hooks/useSearch";
 
 const Shop = () => {

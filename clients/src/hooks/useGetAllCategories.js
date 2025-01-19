@@ -14,7 +14,7 @@ const getAllCategory = () => {
   const fetchCategories = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.get("/api/categories");
+      const response = await axios.get("/api/categories/category");
       setCategoriesData(response.data.categories);
     } catch (error) {
       toast.error(error.response?.data?.message);

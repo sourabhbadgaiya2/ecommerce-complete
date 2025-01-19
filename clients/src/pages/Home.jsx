@@ -1,7 +1,7 @@
 import React from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import { useSelector } from "react-redux";
-import getAllProducts from "../hooks/getAllProducts";
+import getAllProducts from "../hooks/useGetAllProducts";
 import Card from "../components/Card";
 import Search from "../components/Search";
 

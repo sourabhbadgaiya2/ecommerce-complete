@@ -25,6 +25,7 @@ const Card = ({
             <p className='text-gray-800 font-semibold text-xl mb-1'>
               ${product.price}
             </p>
+            {/* //! product details */}
             {!showViewProductBtn && (
               <div className=''>
                 <p className='text-gray-700 text-lg mb-1'>
@@ -37,6 +38,8 @@ const Card = ({
                 </p>
               </div>
             )}
+
+            
             <div className='flex justify-start font-semibold gap-4 mt-4'>
               {showViewProductBtn && (
                 <Link to={`/products/${product._id}`}>

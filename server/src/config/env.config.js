@@ -5,6 +5,7 @@ const _config = {
   REDIS_HOST: process.env.REDIS_HOST,
   REDIS_PORT: process.env.REDIS_PORT,
   REDIS_Time: process.env.REDIS_Time,
+  CLIENT_URL: process.env.CLIENT_URL,
   JWT_SECRET: process.env.JWT_SECRET,
   MONGO_URL: process.env.MONGO_URL,
   PORT: process.env.PORT,

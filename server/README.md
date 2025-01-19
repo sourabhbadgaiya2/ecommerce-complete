@@ -4,7 +4,7 @@
 
 **Purpose**: Register a new user in the system with name, email, and password.
 
-### POST /api/signup
+### POST /api/auth/signup
 
 #### Request Body
 
@@ -52,7 +52,7 @@
 
 **Purpose**: Authenticate a user and provide a JWT token.
 
-### POST /api/signin
+### POST /api/auth/signin
 
 #### Request Body
 
@@ -96,7 +96,7 @@
 
 **Purpose**: Invalidate user's token and end the session.
 
-### POST /api/signout
+### POST /api/auth/signout
 
 Requires authentication token in cookie.
 
@@ -240,7 +240,7 @@ curl -X POST \
 
 **Purpose**: Retrieve a list of all products available in the system.
 
-### GET /api/products
+### GET /api/products/product
 
 Requires authentication.
 
@@ -322,7 +322,7 @@ curl -X GET \
 
 **Purpose**: Retrieve detailed information about a specific product.
 
-### GET /api/products/:id
+### GET /api/products/get-by-id/:id
 
 Requires authentication.
 
@@ -394,7 +394,7 @@ curl -X GET \
 
 **Purpose**: Update an existing product's information and/or image.
 
-### PUT /api/products/:id
+### PUT /api/products/update/:id
 
 Requires authentication and admin privileges.
 
@@ -453,7 +453,7 @@ curl -X PUT \
 
 **Purpose**: Remove a products from the database.
 
-### DELETE /api/products/:id
+### DELETE /api/products/delete/:id
 
 Requires authentication and admin privileges.
 
@@ -612,7 +612,7 @@ Requires authentication and admin privileges.
 
 **Purpose**: Retrieve a list of all product categories.
 
-### GET /api/categories
+### GET /api/categories/category
 
 Requires authentication.
 
@@ -637,7 +637,7 @@ Requires authentication.
 
 **Purpose**: Update an existing category's name.
 
-### PUT /api/categories/:id
+### PUT /api/categories/update/:id
 
 Requires authentication and admin privileges.
 
@@ -672,7 +672,7 @@ Requires authentication and admin privileges.
 
 **Purpose**: Remove a category from the database.
 
-### DELETE /api/categories/:id
+### DELETE /api/categories/delete/:id
 
 Requires authentication and admin privileges.
 
@@ -731,3 +731,122 @@ or
 - Category names must be unique
 - Maximum length for category name is 32 characters
 - Category operations are important as they are referenced in products
+
+# User API Documentation
+
+## Get User by ID
+
+Retrieve user information by their ID.
+
+### Endpoint
+
+```
+GET /api/users/get-by-id/:id
+```
+
+### Authentication
+
+- Requires valid JWT token in Authorization header
+- Only authenticated users can access their own information
+
+### Success Response
+
+**Status:** 200 OK
+
+```json
+{
+  "message": "User found",
+  "user": {
+    "_id": "string",
+    "name": "string",
+    "email": "string",
+    "role": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+}
+```
+
+### Error Responses
+
+**Status:** 400 Bad Request
+
+```json
+{
+  "error": "User not found"
+}
+```
+
+**Status:** 401 Unauthorized
+
+```json
+{
+  "error": "Authentication required"
+}
+```
+
+## Update User
+
+Update user information.
+
+### Endpoint
+
+```
+PUT /api/users/update/:id
+```
+
+### Authentication
+
+- Requires valid JWT token in Authorization header
+- Users can only update their own information
+
+### Request Body
+
+```json
+{
+  "name": "string",
+  "email": "string"
+}
+```
+
+### Success Response
+
+**Status:** 200 OK
+
+```json
+{
+  "user": {
+    "_id": "string",
+    "name": "string",
+    "email": "string",
+    "role": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+}
+```
+
+### Error Responses
+
+**Status:** 400 Bad Request
+
+```json
+{
+  "error": "User not found"
+}
+```
+
+**Status:** 401 Unauthorized
+
+```json
+{
+  "error": "Authentication required"
+}
+```
+
+### Status Codes
+
+- `200 OK`: Request successful
+- `400 Bad Request`: Invalid request or user not found
+- `401 Unauthorized`: Missing or invalid authentication token
+- `500 Internal Server Error`: Server error

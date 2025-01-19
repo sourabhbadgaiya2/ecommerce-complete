@@ -4,8 +4,8 @@ import { getUserById, updateUser } from "../controller/user-controller.js";
 
 const router = express.Router();
 
-router.get("/users/get-by-id", authMiddleware, getUserById);
+router.get("/get-by-id", authMiddleware, getUserById);
 
-router.put("/users/:id", authMiddleware, updateUser);
+router.put("/update/:id", authMiddleware, updateUser);
 
 export default router;

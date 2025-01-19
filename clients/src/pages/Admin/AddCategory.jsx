@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DefaultLayout from "../../components/DefaultLayout";
 import { useSelector } from "react-redux";
-import addCategory from "../../hooks/admin/addCategory";
+import addCategory from "../../hooks/admin/useAddCategory";
 
 const AddCategory = () => {
   const [name, setName] = useState("");

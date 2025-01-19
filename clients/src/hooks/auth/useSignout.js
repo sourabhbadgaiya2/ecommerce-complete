@@ -11,7 +11,7 @@ const useSignout = () => {
   const signout = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.post("/api/signout");
+      const response = await axios.post("/api/auth/signout");
       localStorage.removeItem("token");
       navigate("/signin");
       toast.success(response.data.message);

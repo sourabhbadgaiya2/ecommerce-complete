@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import addProduct from "../../hooks/admin/addProduct";
+import addProduct from "../../hooks/admin/useAddProduct";
 import DefaultLayout from "../../components/DefaultLayout";
-import getAllCategory from "../../hooks/getAllCategories";
+import getAllCategory from "../../hooks/useGetAllCategories";
 
 const AddProduct = () => {
   const { user } = useSelector((state) => state.users);

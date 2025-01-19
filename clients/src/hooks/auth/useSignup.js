@@ -15,7 +15,7 @@ const useSignup = () => {
 
     try {
       dispatch(ShowLoading());
-      const response = await axios.post("/api/signup", {
+      const response = await axios.post("/api/auth/signup", {
         name,
         email,
         password,

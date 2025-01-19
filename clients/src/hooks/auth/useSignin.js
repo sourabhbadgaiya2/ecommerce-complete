@@ -17,7 +17,7 @@ const useSignin = () => {
 
     try {
       dispatch(ShowLoading());
-      const response = await axios.post("/api/signin", { email, password });
+      const response = await axios.post("/api/auth/signin", { email, password });
 
       //   !localstorage
       localStorage.setItem("token", response.data.token);

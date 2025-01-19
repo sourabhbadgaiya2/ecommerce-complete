@@ -13,7 +13,7 @@ const useProduct = () => {
   const viewProduct = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.get(`/api/products/${productId}`);
+      const response = await axios.get(`/api/products/get-by-id/${productId}`);
       //   console.log("product Details", response.data.product);
       setProduct(response.data.product);
     } catch (error) {

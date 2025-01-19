@@ -14,7 +14,7 @@ const getAllProducts = () => {
   const fetchProducts = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.get("/api/products");
+      const response = await axios.get("/api/products/product");
 
       setProducts(response.data.products);
     } catch (error) {

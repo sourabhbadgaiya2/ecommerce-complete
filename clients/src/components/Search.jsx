@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import getAllCategory from "../hooks/getAllCategories";
+import getAllCategory from "../hooks/useGetAllCategories";
 import useSearch from "../hooks/useSearch";
 import toast from "react-hot-toast";
 import Card from "./Card";
