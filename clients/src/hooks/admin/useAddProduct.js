@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../../store/features/alertSlice";
 import axios from "../../config/axios";
+import { handleError } from "../../helpers/errorHandler";
 
 const addProduct = () => {
   const dispatch = useDispatch();
@@ -24,8 +25,7 @@ const addProduct = () => {
       toast.success(response.data.message);
       navigate("/admin-dashboard");
     } catch (error) {
-  
-      toast.error(error.response?.data?.message);
+      handleError(error);
     } finally {
       dispatch(HideLoading());
     }

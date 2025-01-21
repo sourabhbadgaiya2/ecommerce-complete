@@ -24,7 +24,10 @@ const Signup = () => {
   };
 
   return (
-    <DefaultLayout title='Signup' description=''>
+    <DefaultLayout
+      title='Signup'
+      description='Signup to Node React E-commerce App'
+    >
       <div className='container mx-auto px-4'>
         <div className='flex justify-center'>
           <div className='w-full max-w-md bg-white p-6 rounded-lg shadow-lg'>

@@ -2,6 +2,9 @@ import dotenv from "dotenv";
 dotenv.config({ path: "./src/.env" });
 
 const _config = {
+  BRAIN_TREE_MERCHANT_ID: process.env.BRAIN_TREE_MERCHANT_ID,
+  BRAIN_TREE_PUBLIC_KEY: process.env.BRAIN_TREE_PUBLIC_KEY,
+  BRAIN_TREE_PRIVATE_KEY: process.env.BRAIN_TREE_PRIVATE_KEY,
   REDIS_HOST: process.env.REDIS_HOST,
   REDIS_PORT: process.env.REDIS_PORT,
   REDIS_Time: process.env.REDIS_Time,

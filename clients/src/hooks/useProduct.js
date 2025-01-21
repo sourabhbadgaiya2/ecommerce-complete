@@ -4,6 +4,7 @@ import axios from "../config/axios";
 import { HideLoading, ShowLoading } from "../store/features/alertSlice";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { handleError } from "../helpers/errorHandler";
 
 const useProduct = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const useProduct = () => {
       //   console.log("product Details", response.data.product);
       setProduct(response.data.product);
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      handleError(error);
     } finally {
       dispatch(HideLoading());
     }

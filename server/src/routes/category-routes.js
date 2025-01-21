@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post("/create", authMiddleware, isAdminAuth, create);
 
-router.get("/category", authMiddleware, getAllCategory);
+router.get("/category", getAllCategory);
 
 router.get("/get-by-id/:id", authMiddleware, getCategoryById);
 

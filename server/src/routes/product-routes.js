@@ -16,25 +16,25 @@ import {
 const router = express.Router();
 
 router.post(
-  "/products/create",
+  "/create",
   authMiddleware,
   isAdminAuth,
   productsCreate,
   productInputValidator
 );
 
-router.get("/products/categories", authMiddleware, getCategories);
+router.get("/categories", authMiddleware, getCategories);
 
-router.get("/products", authMiddleware, getAllProduct);
+router.get("/product", authMiddleware, getAllProduct);
 
-router.get("/products/search", authMiddleware, listSearch);
+router.get("/search", authMiddleware, listSearch);
 
-router.get("/products/images/:id", authMiddleware, showImages);
+router.get("/images/:id", authMiddleware, showImages);
 
-router.get("/products/:id", authMiddleware, productsById);
+router.get("/get-by-id/:id", authMiddleware, productsById);
 
-router.delete("/products/:id", authMiddleware, isAdminAuth, removeProducts);
+router.delete("/delete/:id", authMiddleware, isAdminAuth, removeProducts);
 
-router.put("/products/:id", authMiddleware, isAdminAuth, updateProducts);
+router.put("/update/:id", authMiddleware, isAdminAuth, updateProducts);
 
 export default router;

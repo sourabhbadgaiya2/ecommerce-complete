@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../../store/features/alertSlice";
+import { handleError } from "../../helpers/errorHandler";
 
 const useSignout = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const useSignout = () => {
       navigate("/signin");
       toast.success(response.data.message);
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      handleError(error);
     } finally {
       dispatch(HideLoading());
     }

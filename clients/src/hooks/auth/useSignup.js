@@ -1,9 +1,10 @@
 import toast from "react-hot-toast";
 import axios from "../../config/axios";
-import { handleInputError } from "../../utils/input-validation";
+import { handleInputError } from "../../helpers/input-validation";
 import { HideLoading, ShowLoading } from "../../store/features/alertSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { handleError } from "../../helpers/errorHandler";
 
 const useSignup = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const useSignup = () => {
       toast.success(response.data.message);
       navigate("/signin");
     } catch (error) {
-      toast.error(error?.response?.data?.error);
+      handleError(error);
     } finally {
       dispatch(HideLoading());
     }

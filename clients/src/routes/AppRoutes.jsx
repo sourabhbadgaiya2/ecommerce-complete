@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Signup from "../pages/Signup";
@@ -11,25 +10,17 @@ import AddCategory from "../pages/Admin/AddCategory";
 import AddProduct from "../pages/Admin/AddProduct";
 import Shop from "../pages/Shop";
 import ProductDetails from "../pages/ProductDetails";
+import Cart from "../components/Cart";
 
 const AppRoutes = () => {
   return (
     <div>
       <Routes>
-        {/* //! Public routes */}
-
+        {/* Public Routes */}
         <Route path='/signin' element={<Signin />} />
         <Route path='/signup' element={<Signup />} />
 
-        {/* //!Protected Routes */}
-        <Route
-          path='/user-dashboard'
-          element={
-            <Protected>
-              <UserDashboard />
-            </Protected>
-          }
-        />
+        {/* Protected Routes */}
         <Route
           path='/'
           element={
@@ -38,14 +29,14 @@ const AppRoutes = () => {
             </Protected>
           }
         />
-        {/* <Route
-          path='/shop'
+        <Route
+          path='/cart'
           element={
             <Protected>
-              <Shop />
+              <Cart />
             </Protected>
           }
-        /> */}
+        />
         <Route
           path='/products/:productId'
           element={
@@ -54,8 +45,16 @@ const AppRoutes = () => {
             </Protected>
           }
         />
+        <Route
+          path='/user-dashboard'
+          element={
+            <Protected>
+              <UserDashboard />
+            </Protected>
+          }
+        />
 
-        {/* //! Admin Routes */}
+        {/* Admin Routes */}
         <Route
           path='/admin-dashboard'
           element={
@@ -80,7 +79,8 @@ const AppRoutes = () => {
             </Protected>
           }
         />
-        {/* //!Not found */}
+
+        {/* Not Found */}
         <Route path='*' element={<NotFound />} />
       </Routes>
     </div>

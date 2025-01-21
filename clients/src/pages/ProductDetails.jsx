@@ -15,12 +15,7 @@ const ProductDetails = () => {
       <div className=''>
         <div className='w-full'>
           {product && product.description && (
-            <Card
-              imgHeight={"h-[65vh]"}
-              imgAlignment={"place-items-start"}
-              product={product}
-              showViewProductBtn={false}
-            />
+            <Card product={product} showViewProductBtn={false} />
           )}
         </div>
       </div>

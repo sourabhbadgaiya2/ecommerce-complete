@@ -1,7 +1,7 @@
-import toast from "react-hot-toast";
 import axios from "../config/axios";
 import { useDispatch } from "react-redux";
 import { ShowLoading, HideLoading } from "../store/features/alertSlice";
+import { handleError } from "../helpers/errorHandler";
 
 const useSearch = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const useSearch = () => {
       const response = await axios.get("/api/products/search", { params });
       return response.data.data;
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to perform search.");
+      handleError(error);
     } finally {
       dispatch(HideLoading());
     }

@@ -2,10 +2,9 @@ import toast from "react-hot-toast";
 import axios from "../../config/axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { handleInputError } from "../../utils/input-validation";
+import { handleInputError } from "../../helpers/input-validation";
 import { HideLoading, ShowLoading } from "../../store/features/alertSlice";
-
-import { useSelector } from "react-redux";
+import { handleError } from "../../helpers/errorHandler";
 
 const useSignin = () => {
   const navigate = useNavigate();
@@ -17,7 +16,10 @@ const useSignin = () => {
 
     try {
       dispatch(ShowLoading());
-      const response = await axios.post("/api/auth/signin", { email, password });
+      const response = await axios.post("/api/auth/signin", {
+        email,
+        password,
+      });
 
       //   !localstorage
       localStorage.setItem("token", response.data.token);
@@ -25,7 +27,7 @@ const useSignin = () => {
       toast.success(response.data.message);
       navigate("/");
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      handleError(error);
     } finally {
       dispatch(HideLoading());
     }

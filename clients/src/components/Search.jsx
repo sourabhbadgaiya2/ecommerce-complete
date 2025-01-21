@@ -43,8 +43,8 @@ const Search = () => {
   };
 
   return (
-    <div className='row'>
-      <div className='flex justify-center mt-6 px-4'>
+    <div className=''>
+      <div className='flex justify-center px-4'>
         <div className='w-full max-w-9xl bg-white p-4 rounded-lg shadow-md'>
           <form onSubmit={searchSubmit}>
             <div className='flex flex-col sm:flex-row items-center sm:space-x-4 space-y-4 sm:space-y-0'>
@@ -94,6 +94,7 @@ const Search = () => {
             : ""}
         </div>
       </div>
+      <hr className='text-center mx-auto' />
     </div>
   );
 };
