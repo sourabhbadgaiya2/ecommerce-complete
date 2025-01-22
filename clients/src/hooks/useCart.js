@@ -37,13 +37,20 @@ const useCart = () => {
     return 0;
   };
 
+  // const getCart = () => {
+  //   if (typeof window !== "undefined") {
+  //     if (localStorage.getItem("cart")) {
+  //       return JSON.parse(localStorage.getItem("cart"));
+  //     }
+  //   }
+  //   return [];
+  // };
   const getCart = () => {
     if (typeof window !== "undefined") {
-      if (localStorage.getItem("cart")) {
-        return JSON.parse(localStorage.getItem("cart"));
-      }
+      const cart = localStorage.getItem("cart");
+      return cart ? JSON.parse(cart) : []; // Only parse if cart exists
     }
-    return [];
+    return []; // Return empty array if localStorage is not available
   };
 
   const updateItem = (productId, count) => {
@@ -61,21 +68,6 @@ const useCart = () => {
     }
   };
 
-  // const removeItem = (productId, count) => {
-  //   let cart = [];
-  //   if (typeof window !== "undefined") {
-  //     if (localStorage.getItem("cart")) {
-  //       cart = JSON.parse(localStorage.getItem("cart"));
-  //     }
-  //     cart.map((product, i) => {
-  //       if (product._id === productId) {
-  //         cart = cart.filter((product) => product._id !== productId);
-  //       }
-  //     });
-  //     localStorage.setItem("cart", JSON.stringify(cart));
-  //   }
-  //   return cart;
-  // };
   const removeItem = (productId) => {
     let cart = [];
     if (typeof window !== "undefined") {
@@ -88,7 +80,15 @@ const useCart = () => {
     return cart; // Return the updated cart
   };
 
-  return { addToCart, itemTotal, getCart, updateItem, removeItem };
+  const emptyCart = (next) => {
+    if (typeof window !== "undefined") {
+      // Return the updated cart
+      localStorage.removeItem("cart");
+      next();
+    }
+  };
+
+  return { addToCart, itemTotal, getCart, emptyCart, updateItem, removeItem };
 };
 
 export default useCart;
