@@ -7,10 +7,16 @@ import { handleError } from "../helpers/errorHandler";
 import useClientToken from "../hooks/braintree/useClientToken";
 import useProcessPayment from "../hooks/braintree/useProcessPayment";
 import { HideLoading, ShowLoading } from "../store/features/alertSlice";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import useOrder from "../hooks/order/useOrder";
 
 const Checkout = ({ products = [] }) => {
   const { user } = useSelector((state) => state.users);
   const dropinContainerRef = useRef(null); // Reference to the drop-in container
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [total, setTotal] = useState(0); // State to store the total amount
   const [data, setData] = useState({
@@ -24,6 +30,7 @@ const Checkout = ({ products = [] }) => {
   const { emptyCart } = useCart();
   const { processPayment } = useProcessPayment();
   const { getBrainTreeClientToken } = useClientToken();
+  const { createOrder } = useOrder();
 
   useEffect(() => {
     const initializeBraintree = async () => {
@@ -76,7 +83,7 @@ const Checkout = ({ products = [] }) => {
       }
     };
   }, [data.clientToken]);
-  const dispatch = useDispatch();
+
   const handleCheckout = async () => {
     if (data.instance) {
       try {
@@ -96,11 +103,22 @@ const Checkout = ({ products = [] }) => {
         // Check if the payment is successful
         if (paymentResponse.success) {
           setPaymentStatus("Payment Successful! Thank you for your purchase.");
+          toast.success("Payment Successful! Thank you for your purchase.");
+
+          //empty cart
+          // order
+          const createOrderData = {
+            products: products,
+            transactionId: paymentResponse.data.transactionId,
+            amount: paymentResponse.data.amount,
+            address: data.address,
+          };
+
+          await createOrder(createOrderData);
 
           emptyCart(() => {
             console.log("Cart emptied successfully");
-
-            // Optionally, redirect the user or update UI after emptying cart
+            navigate("/");
           });
         } else {
           setPaymentStatus("Payment failed. Please try again.");
@@ -116,10 +134,19 @@ const Checkout = ({ products = [] }) => {
   };
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-2'>
       <h3 className='text-xl font-semibold text-gray-700'>Order Summary</h3>
       <h2 className='text-gray-600'>Total: ${total.toFixed(2)}</h2>
 
+      <h2 className='text-gray-600'>Delivery Address</h2>
+      <textarea
+        name='address'
+        value={data.address}
+        onChange={(e) =>
+          setData((prevData) => ({ ...prevData, address: e.target.value }))
+        }
+        className='border h-[5vh]'
+      ></textarea>
       {/* Show Payment Status */}
       {paymentStatus && (
         <div
@@ -139,11 +166,11 @@ const Checkout = ({ products = [] }) => {
           <div
             id='dropin-container'
             ref={dropinContainerRef}
-            className='my-4'
+            className='my-2'
           ></div>
           <button
             onClick={handleCheckout}
-            className='px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition'
+            className='px-4 py-2 w-[25vw] bg-green-500 text-white rounded-lg hover:bg-green-600 transition'
           >
             Pay
           </button>

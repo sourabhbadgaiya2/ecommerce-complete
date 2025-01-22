@@ -37,14 +37,6 @@ const useCart = () => {
     return 0;
   };
 
-  // const getCart = () => {
-  //   if (typeof window !== "undefined") {
-  //     if (localStorage.getItem("cart")) {
-  //       return JSON.parse(localStorage.getItem("cart"));
-  //     }
-  //   }
-  //   return [];
-  // };
   const getCart = () => {
     if (typeof window !== "undefined") {
       const cart = localStorage.getItem("cart");

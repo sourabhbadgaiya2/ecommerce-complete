@@ -12,6 +12,7 @@ export const generateToken = async (req, res, next) => {
 
 export const processPayment = async (req, res, next) => {
   const { paymentMethodNonce, amount } = req.body;
+
   try {
     // Charge the payment using Braintree's gateway
     const newTransaction = await gateway.transaction.sale({
@@ -24,10 +25,11 @@ export const processPayment = async (req, res, next) => {
 
     // Check if the transaction was successful
     if (newTransaction.success) {
-      console.log("Transaction successful:", newTransaction);
+      // console.log("Transaction successful:", newTransaction);
       return res.status(200).json({
         success: true,
         transactionId: newTransaction.transaction.id,
+        amount: amount,
         message: "Payment processed successfully!",
       });
     } else {

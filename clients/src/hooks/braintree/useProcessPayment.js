@@ -8,6 +8,7 @@ const useProcessPayment = () => {
   const dispatch = useDispatch();
 
   const processPayment = async (paymentData) => {
+    
     try {
       dispatch(ShowLoading());
       const response = await axiosInstance.post(
@@ -15,13 +16,13 @@ const useProcessPayment = () => {
         paymentData
       );
 
-      // Log the response to verify the structure
       console.log("Backend response:", response);
 
       if (response.data.success) {
         return {
           success: true,
           message: "Payment processed successfully",
+          data: response.data,
         };
       } else {
         return {
