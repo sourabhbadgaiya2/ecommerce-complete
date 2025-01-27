@@ -5,8 +5,8 @@ import cookieParser from "cookie-parser";
 
 // Import Routes
 import config from "./config/env.config.js";
-import authRoutes from "./routes/auth-routes.js";
 import userRoutes from "./routes/user-routes.js";
+import authRoutes from "./routes/auth-routes.js";
 import ErrorHandler from "./utils/ErrorHandler.js";
 import orderRoutes from "./routes/order-routes.js";
 import productRoutes from "./routes/product-routes.js";
@@ -32,10 +32,10 @@ app.use(cookieParser());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/categories", categoryRoutes);
+app.use("/api/order", orderRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/braintree", brainTreeRoutes);
-app.use("/api/order", orderRoutes);
+app.use("/api/categories", categoryRoutes);
 
 // Error Handler
 app.all("*", (req, res, next) => {

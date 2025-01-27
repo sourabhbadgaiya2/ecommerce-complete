@@ -8,10 +8,10 @@ import Checkout from "./Checkout";
 const Cart = () => {
   const [items, setItems] = useState([]);
   const { getCart, removeItem } = useCart();
-
+  const [run, setRun] = useState(false);
   useEffect(() => {
     setItems(getCart());
-  }, []);
+  }, [run]);
 
   const handleRemove = (productId) => {
     const updatedCart = removeItem(productId); // Get the updated cart
@@ -39,6 +39,8 @@ const Cart = () => {
                 cartUpdate={true}
                 showRemoveProductButton={true}
                 onRemove={() => handleRemove(product._id)}
+                setRun={setRun}
+                run={run}
               />
             ))}
           </div>
@@ -57,9 +59,11 @@ const Cart = () => {
         )}
 
         {/* Checkout Section */}
-        <div className='bg-white col-span-3 shadow-lg rounded-lg p-6 space-y-4'>
-          <Checkout products={items} />
-        </div>
+        {items.length > 0 && (
+          <div className='bg-white col-span-3 shadow-lg rounded-lg p-6 space-y-4'>
+            <Checkout products={items} />
+          </div>
+        )}
       </div>
     </DefaultLayout>
   );

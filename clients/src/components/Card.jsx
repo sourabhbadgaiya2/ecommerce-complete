@@ -9,6 +9,8 @@ const Card = ({
   showAddToCartButton = true,
   showViewProductBtn = true,
   showRemoveProductButton = false,
+  setRun = (f) => f,
+  run = undefined,
   onRemove = () => {}, // Default empty function
 }) => {
   const [count, setCount] = useState(product.count || 1);
@@ -23,6 +25,7 @@ const Card = ({
 
   const handleChange = (productId) => (e) => {
     const value = e.target.value < 1 ? 1 : e.target.value;
+    setRun(!run);
     setCount(value);
     if (value >= 1) {
       updateItem(productId, value); // hooks

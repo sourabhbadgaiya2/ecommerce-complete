@@ -20,11 +20,10 @@ export const authMiddleware = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
-  } catch (err) {
-    next(err);
-    return res
-      .status(401)
-      .json({ message: "Invalid token or server error!", error: err.message });
+  } catch (error) {
+    next(error);
+    console.log(error.message, "middleware");
+    
   }
 };
 

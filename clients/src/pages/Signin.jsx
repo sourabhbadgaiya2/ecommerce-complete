@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import useSignin from "../hooks/auth/useSignin";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -29,7 +29,7 @@ const Signin = () => {
       title='Signin'
       description='Signin to Node React E-commerce App'
     >
-      <div className='container mx-auto mt-10 px-4'>
+      <div className='mx-auto mt-10 px-4'>
         <div className='flex justify-center'>
           <div className='w-full max-w-md bg-white p-6 rounded-lg shadow-lg'>
             <form onSubmit={handleSubmit}>
@@ -66,7 +66,14 @@ const Signin = () => {
                   placeholder='Enter your password'
                 />
               </div>
-
+              <div className='mb-6 flex justify-end'>
+                <Link
+                  to='/forget-password'
+                  className='text-sm text-blue-500 hover:underline'
+                >
+                  Forgot Password?
+                </Link>
+              </div>
               {/* Submit Button */}
               <button
                 type='submit'

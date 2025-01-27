@@ -25,7 +25,10 @@ const UserDashboard = () => {
                 </Link>
               </li>
               <li className='list-group-item'>
-                <Link className='nav-link text-primary' to='#'>
+                <Link
+                  className='nav-link text-primary'
+                  to={`/profile/${user._id}`}
+                >
                   Update Profile
                 </Link>
               </li>

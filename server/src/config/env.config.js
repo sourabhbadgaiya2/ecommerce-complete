@@ -12,6 +12,8 @@ const _config = {
   JWT_SECRET: process.env.JWT_SECRET,
   MONGO_URL: process.env.MONGO_URL,
   PORT: process.env.PORT,
+  EMAIL_ADDRESS: process.env.EMAIL_ADDRESS,
+  EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
 };
 
 const config = Object.freeze(_config);

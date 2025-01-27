@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import DefaultLayout from "../../components/DefaultLayout";
 import { useSelector } from "react-redux";
@@ -26,6 +25,11 @@ const AdminDashboard = () => {
               <li className='list-group-item text-primary'>
                 <Link className='nav-link' to='/admin/create-product'>
                   Create Product
+                </Link>
+              </li>
+              <li className='list-group-item text-primary'>
+                <Link className='nav-link' to='/admin/orders'>
+                  View Orders
                 </Link>
               </li>
             </ul>

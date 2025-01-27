@@ -22,10 +22,18 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required."],
       select: false,
     },
+    resetPasswordToken: {
+      type: String,
+      default: "0",
+    },
     role: {
       type: String,
       enum: ["user", "admin"],
       default: "user",
+    },
+    history: {
+      type: Array,
+      default: [],
     },
   },
   { timestamps: true }

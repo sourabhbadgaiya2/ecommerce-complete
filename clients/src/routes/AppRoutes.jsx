@@ -5,12 +5,16 @@ import Signin from "../pages/Signin";
 import Protected from "../components/Protected";
 import NotFound from "../pages/NotFound";
 import UserDashboard from "../pages/UserDashboard";
+import Shop from "../pages/Shop";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import AddCategory from "../pages/Admin/AddCategory";
 import AddProduct from "../pages/Admin/AddProduct";
-import Shop from "../pages/Shop";
 import ProductDetails from "../pages/ProductDetails";
 import Cart from "../components/Cart";
+import AllOrder from "../pages/Admin/AllOrder";
+import UserProfile from "../pages/UserProfile";
+import ForgotPass from "../pages/ForgotPass";
+import EmailPassLink from "../pages/EmailPassLink";
 
 const AppRoutes = () => {
   return (
@@ -19,6 +23,8 @@ const AppRoutes = () => {
         {/* Public Routes */}
         <Route path='/signin' element={<Signin />} />
         <Route path='/signup' element={<Signup />} />
+        <Route path='/forget-password' element={<ForgotPass />} />
+        <Route path='/api/auth/forget-link/:id' element={<EmailPassLink />} />
 
         {/* Protected Routes */}
         <Route
@@ -53,6 +59,14 @@ const AppRoutes = () => {
             </Protected>
           }
         />
+        <Route
+          path='/profile/:userId'
+          element={
+            <Protected>
+              <UserProfile />
+            </Protected>
+          }
+        />
 
         {/* Admin Routes */}
         <Route
@@ -76,6 +90,14 @@ const AppRoutes = () => {
           element={
             <Protected requiredRole='admin'>
               <AddProduct />
+            </Protected>
+          }
+        />
+        <Route
+          path='/admin/orders'
+          element={
+            <Protected requiredRole='admin'>
+              <AllOrder />
             </Protected>
           }
         />

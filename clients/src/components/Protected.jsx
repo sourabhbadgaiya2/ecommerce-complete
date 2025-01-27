@@ -18,8 +18,6 @@ const Protected = ({ children, requiredRole }) => {
 
       const response = await axios.get("/api/users/get-by-id");
 
-      dispatch(HideLoading());
-
       if (response?.data?.user) {
         dispatch(SetUser(response.data.user));
       } else {
@@ -28,8 +26,6 @@ const Protected = ({ children, requiredRole }) => {
         navigate("/signin");
       }
     } catch (error) {
-      dispatch(HideLoading());
-
       localStorage.removeItem("token");
       toast.error(error.response?.data?.message || "Something went wrong!");
       navigate("/signin");
