@@ -9,14 +9,15 @@ const useProfileUpdate = () => {
   const dispatch = useDispatch();
   const { userId } = useParams();
 
-  const updateUser = async () => {
+  const updateUser = async ({ name, email }) => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.put(`/api/users/update${userId}`);
-      //   return response.data.data
-      console.log("response", response);
-
-      toast.success(response.data.message);
+      const response = await axios.put(`/api/users/update/${userId}`, {
+        name,
+        email,
+      });
+      return response.data.user;
+      // toast.success(response.data.message);
     } catch (error) {
       handleError(error);
     } finally {

@@ -23,19 +23,36 @@ export const createOrder = async (req, res, next) => {
 };
 
 // Admin only
+// export const allOrderList = async (req, res, next) => {
+//   try {
+//     const list = await Order.find()
+//       .populate("user", "_id name address")
+//       .sort("-created"); // sort by date
+//     console.log(list, "list");
+
+//     res.status(201).json({
+//       message: "all order list read",
+//       list,
+//     });
+//   } catch (error) {
+//     console.error("Error in createOrder:", error.message);
+//     next(error);
+//   }
+// };
+
 export const allOrderList = async (req, res, next) => {
   try {
     const list = await Order.find()
       .populate("user", "_id name address")
-      .sort("-created"); // sort by date
-    // console.log(list, "list");
+      .populate("products", "name price quantity") // Populate product details
+      .sort("-createdAt");
 
-    res.status(201).json({
-      message: "all order list read",
+    res.status(200).json({
+      message: "All order list read",
       list,
     });
   } catch (error) {
-    console.error("Error in createOrder:", error.message);
+    console.error("Error in allOrderList:", error.message);
     next(error);
   }
 };

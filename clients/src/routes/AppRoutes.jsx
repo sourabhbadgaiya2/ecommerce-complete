@@ -15,6 +15,9 @@ import AllOrder from "../pages/Admin/AllOrder";
 import UserProfile from "../pages/UserProfile";
 import ForgotPass from "../pages/ForgotPass";
 import EmailPassLink from "../pages/EmailPassLink";
+import UpdateProduct from "../pages/Admin/UpdateProduct";
+import UpdatesProducts from "../pages/Admin/UpdatesProducts";
+import ManageCategory from "../pages/Admin/ManageCategory";
 
 const AppRoutes = () => {
   return (
@@ -86,10 +89,34 @@ const AppRoutes = () => {
           }
         />
         <Route
+          path='/admin/manage-category'
+          element={
+            <Protected requiredRole='admin'>
+              <ManageCategory />
+            </Protected>
+          }
+        />
+        <Route
           path='/admin/create-product'
           element={
             <Protected requiredRole='admin'>
               <AddProduct />
+            </Protected>
+          }
+        />
+        <Route
+          path='/admin/update-product'
+          element={
+            <Protected requiredRole='admin'>
+              <UpdateProduct />
+            </Protected>
+          }
+        />
+        <Route
+          path='/admin/product/update/:productId'
+          element={
+            <Protected requiredRole='admin'>
+              <UpdatesProducts />
             </Protected>
           }
         />

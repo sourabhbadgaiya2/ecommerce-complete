@@ -22,12 +22,25 @@ const getAllCategory = () => {
       dispatch(HideLoading());
     }
   };
+  const fetchCategoriesById = async (_id) => {
+    try {
+      dispatch(ShowLoading());
+      const response = await axios.get(`/api/categories/get-by-id/${_id}`);
+      console.log(response, "fetch Category");
+
+      //  return response.data
+    } catch (error) {
+      handleError(error);
+    } finally {
+      dispatch(HideLoading());
+    }
+  };
 
   useEffect(() => {
     fetchCategories();
   }, []);
 
-  return { categoriesData };
+  return { categoriesData, fetchCategories, fetchCategoriesById };
 };
 
 export default getAllCategory;

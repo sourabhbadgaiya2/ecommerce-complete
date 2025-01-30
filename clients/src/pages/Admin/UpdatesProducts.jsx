@@ -1,15 +1,17 @@
+import useProduct from "../../hooks/useProduct";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import addProduct from "../../hooks/admin/useAddProduct";
+import { handleError } from "../../helpers/errorHandler";
 import DefaultLayout from "../../components/DefaultLayout";
 import getAllCategory from "../../hooks/useGetAllCategories";
-import { handleError } from "../../helpers/errorHandler";
+import useUpdateProduct from "../../hooks/admin/useUpdateProduct";
 import { HideLoading, ShowLoading } from "../../store/features/alertSlice";
 
-const AddProduct = () => {
+const UpdatesProducts = () => {
   const { user } = useSelector((state) => state.users);
-  const { createProducts } = addProduct();
   const { categoriesData } = getAllCategory();
+  const { product } = useProduct(); //! Get product By id
+  const { updateProduct } = useUpdateProduct();
   const dispatch = useDispatch();
 
   const [products, setProducts] = useState({
@@ -18,7 +20,6 @@ const AddProduct = () => {
     description: "",
     categories: [],
     category: "",
-    // shipping: "",
     stock: "",
     images: "",
     formData: new FormData(),
@@ -26,6 +27,20 @@ const AddProduct = () => {
 
   const { name, description, price, categories, category, stock, formData } =
     products;
+
+  useEffect(() => {
+    if (product && product._id) {
+      setProducts((prev) => ({
+        ...prev,
+        name: product.name || "",
+        description: product.description || "",
+        stock: product.stock || "",
+        price: product.price || "",
+        category: product.category?._id || "",
+        formData: new FormData(),
+      }));
+    }
+  }, [product]);
 
   const handleChange = (name) => (e) => {
     const productValue =
@@ -40,7 +55,7 @@ const AddProduct = () => {
     e.preventDefault();
     try {
       dispatch(ShowLoading());
-      await createProducts(products.formData);
+      await updateProduct(products.formData);
     } catch (error) {
       dispatch(HideLoading());
       handleError(error);
@@ -49,14 +64,15 @@ const AddProduct = () => {
 
   return (
     <DefaultLayout
-      title='Add a new Product'
-      description={`Hello ${user.name}.. ready to add a new Product`}
+      title='Update Product'
+      description={`Hello ${user.name}.. ready to Update Product`}
       className='container mx-auto p-4'
     >
       <div className='flex justify-center items-center min-h-screen'>
+        {/* {JSON.stringify()} */}
         <div className='w-full max-w-2xl bg-white shadow-lg rounded-lg p-6'>
           <form onSubmit={clickSubmit} className='space-y-6'>
-            <h4 className='text-xl font-semibold mb-4'>Post Images</h4>
+            <h4 className='text-xl font-semibold mb-4'>Update</h4>
 
             {/* File Input */}
             <div className='mb-4'>
@@ -122,7 +138,7 @@ const AddProduct = () => {
                 className='w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none'
                 onChange={handleChange("category")}
               >
-                <option value=''>Select</option>
+                <option value={category}>{product.category?.name}</option>
                 {categoriesData &&
                   categoriesData.map((item, idx) => (
                     <option key={idx} value={item._id}>
@@ -131,22 +147,6 @@ const AddProduct = () => {
                   ))}
               </select>
             </div>
-
-            {/* Shipping Dropdown */}
-            {/* <div>
-              <label className='block text-sm font-medium text-gray-700 mb-1'>
-                Shipping
-              </label>
-              <select
-                className='w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none'
-                onChange={handleChange("shipping")}
-              >
-                <option value=''>Select</option>
-                <option value='0'>No</option>
-                <option value='1'>Yes</option>
-              </select>
-            </div> */}
-
             {/* Stock Input */}
             <div>
               <label className='block text-sm font-medium text-gray-700 mb-1'>
@@ -167,7 +167,7 @@ const AddProduct = () => {
                 type='submit'
                 className='w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200'
               >
-                Create Product
+                Save
               </button>
             </div>
           </form>
@@ -177,4 +177,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdatesProducts;

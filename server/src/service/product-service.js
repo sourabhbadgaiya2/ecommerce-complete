@@ -1,4 +1,5 @@
 import fs from "fs";
+import _ from "lodash";
 import Product from "../models/product.model.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 

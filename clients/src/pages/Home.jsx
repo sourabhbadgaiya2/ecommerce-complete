@@ -9,19 +9,18 @@ const Home = () => {
   const { user } = useSelector((state) => state.users);
   const { products } = getAllProducts();
 
-
   return (
     <DefaultLayout
       title='Home Page'
-      description={`Hello ${user?.name || ""} Welcome to Ecommerce`}
-      className='mx-auto p-6 bg-gray-50'
+      description={`Hello ${user?.name || ""}... Welcome to Ecommerce`}
+      className='mx-auto p-4 bg-gray-50'
     >
       <Search />
-      <div className='my-4'>
-        <div className='flex flex-wrap gap-6'>
+      <div className='my-2'>
+        <div className='flex flex-wrap gap-4'>
           {products &&
             products.map((product, idx) => (
-              <Card imgHeight={"h-[45vh]"} key={idx} product={product} />
+              <Card key={idx} product={product} />
             ))}
         </div>
       </div>

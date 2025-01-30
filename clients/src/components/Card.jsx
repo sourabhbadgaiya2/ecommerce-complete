@@ -34,29 +34,30 @@ const Card = ({
 
   return (
     <div className='my-2'>
-      <div className='w-full max-w-sm border rounded shadow-lg'>
+      <div className='w-full max-w-sm border rounded  transition-transform duration-300 ease-in-out hover:scale-[1.01]'>
         <div>
-          <div className='bg-gray-200 text-lg font-semibold p-3'>
+          <div className='bg-purple-800 text-white text-lg font-semibold p-2'>
             {product.name}
           </div>
-          <div className='p-2'>
+          <div className='p-2 place-items-start ml-4'>
             <ShowImages item={product} />
           </div>
           <div className='p-3'>
-            <p className='text-gray-700 font-bold mb-1 text-xl'>
+            <p className='text-gray-800 rounded-sm py-1 px-2 bg-gray-300 font-bold mb-2 text-xl'>
               {product.description}
             </p>
-            <p className='text-gray-800 font-semibold text-xl mb-1'>
+
+            <p className='text-gray-800 rounded-sm py-1 px-2 bg-gray-300 font-bold mb-2 text-xl'>
               ${product.price}
             </p>
 
             {/* Product Details */}
             {!showViewProductBtn && (
               <div>
-                <p className='text-gray-700 text-lg mb-1'>
+                <p className='text-gray-800 text-lg mb-2 rounded-sm py-1 px-2 bg-gray-300 font-bold'>
                   <strong>Category: {product.category?.name || "N/A"}</strong>
                 </p>
-                <p className='text-gray-700 text-lg mb-1'>
+                <p className='text-gray-800 text-lg mb-2 rounded-sm py-1 px-2 bg-gray-300 font-bold'>
                   <strong>
                     Added on {new Date(product.createdAt).toLocaleDateString()}
                   </strong>
@@ -65,11 +66,11 @@ const Card = ({
             )}
 
             {/* Action Buttons */}
-            <div className='flex justify-start items-center font-semibold gap-4 mt-2'>
+            <div className='flex justify-start items-center font-semibold gap-3 mt-3'>
               {showViewProductBtn && (
                 <Link to={`/products/${product._id}`}>
                   <button
-                    className='px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-500 hover:text-white transition'
+                    className='px-3 py-2 border-1 border-blue-500 text-blue-500 rounded hover:bg-blue-500 hover:text-white transition'
                     title='View Product Details'
                   >
                     View Product
@@ -79,7 +80,7 @@ const Card = ({
               {showAddToCartButton && (
                 <button
                   onClick={addItems}
-                  className='px-4 py-2 border border-orange-700 text-orange-500 rounded hover:bg-orange-500 hover:text-white transition'
+                  className='px-3 py-2 border-1 border-orange-700 text-orange-500 rounded hover:bg-orange-500 hover:text-white transition'
                   title='Add to Cart'
                 >
                   Add to Cart
@@ -88,7 +89,7 @@ const Card = ({
               {showRemoveProductButton && (
                 <button
                   onClick={() => onRemove(product._id)}
-                  className='px-4 py-2 border border-red-700 text-red-500 rounded hover:bg-red-300 hover:text-white transition'
+                  className='px-3 py-2 border-1 border-red-700 text-red-500 rounded hover:bg-red-300 hover:text-white transition'
                   title='Remove from Cart'
                 >
                   Remove Product

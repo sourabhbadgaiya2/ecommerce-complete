@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import DefaultLayout from "../../components/DefaultLayout";
 import { useSelector } from "react-redux";
 import useAllOrderList from "../../hooks/admin/useAllOrderList";
-import useProduct from "../../hooks/useProduct";
 
 const AllOrder = () => {
-  const { data } = useAllOrderList(); // Fetching the orders
-  const { user } = useSelector((state) => state.users); // Getting the user info from Redux
+  const { data } = useAllOrderList();
+  const { user } = useSelector((state) => state.users);
+
+  console.log(data);
 
   const [selectedOrder, setSelectedOrder] = useState(null); // For modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,7 +24,7 @@ const AllOrder = () => {
 
   return (
     <DefaultLayout
-      title='Orders'
+      title='Check All Orders'
       description={`Hello ${
         user?.name || "User"
       }, you can manage all the orders here`}
@@ -45,10 +46,6 @@ const AllOrder = () => {
                     <h2 className='text-lg font-semibold text-gray-700 mb-2'>
                       Order #{idx + 1}
                     </h2>
-                    <p className='text-sm text-gray-600'>
-                      <strong>Transaction ID:</strong>{" "}
-                      {order.transaction_id || "Null"}
-                    </p>
                     <p className='text-sm text-gray-600'>
                       <strong>Order ID:</strong> {order._id}
                     </p>
@@ -87,12 +84,9 @@ const AllOrder = () => {
       {isModalOpen && selectedOrder && (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
           <div className='bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md'>
-            <h2 className='text-xl font-bold text-gray-800 mb-4'>
+            <h2 className='text-xl font-bold border-b text-gray-800 mb-4'>
               Order Details
             </h2>
-            <p className='text-sm text-gray-600'>
-              <strong>Product ID:</strong> {selectedOrder.products}
-            </p>
             <p className='text-sm text-gray-600'>
               <strong>Order ID:</strong> {selectedOrder._id}
             </p>
@@ -103,12 +97,22 @@ const AllOrder = () => {
               <strong>Total Amount:</strong> ₹{selectedOrder.amount}
             </p>
             <p className='text-sm text-gray-600'>
-              <strong>Number of Items:</strong> {selectedOrder.products?.length}
-            </p>
-            <p className='text-sm text-gray-600'>
               <strong>Date:</strong>{" "}
               {new Date(selectedOrder.createdAt).toLocaleDateString()}
             </p>
+
+            <h3 className='text-lg font-bold border-b text-gray-700 mt-4'>
+              Products:
+            </h3>
+            <ul className='mt-2'>
+              {selectedOrder.products.map((product) => (
+                <li key={product._id} className='text-sm text-gray-600'>
+                  <strong>Name: {product.name}</strong> <br />
+                  <strong>Price: ₹{product.price}</strong>
+                </li>
+              ))}
+            </ul>
+
             <div className='mt-4'>
               <button
                 className='w-full py-2 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 transition-colors duration-300'

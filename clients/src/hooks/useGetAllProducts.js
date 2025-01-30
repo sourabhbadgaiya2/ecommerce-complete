@@ -28,7 +28,7 @@ const getAllProducts = () => {
     fetchProducts();
   }, []);
 
-  return { products };
+  return { products, fetchProducts };
 };
 
 export default getAllProducts;

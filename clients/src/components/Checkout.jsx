@@ -85,11 +85,12 @@ const Checkout = ({ products = [] }) => {
   }, [data.clientToken]);
 
   const handleCheckout = async () => {
+  
     if (data.instance) {
       try {
         dispatch(ShowLoading());
         const { nonce } = await data.instance.requestPaymentMethod();
-        console.log("Payment nonce:", nonce);
+        // console.log("Payment nonce:", nonce);
 
         const paymentData = {
           paymentMethodNonce: nonce,
@@ -98,7 +99,7 @@ const Checkout = ({ products = [] }) => {
 
         // Process payment
         const paymentResponse = await processPayment(paymentData);
-        console.log("Payment response:", paymentResponse);
+        // console.log("Payment response:", paymentResponse);
 
         // Check if the payment is successful
         if (paymentResponse.success) {
@@ -117,7 +118,7 @@ const Checkout = ({ products = [] }) => {
           await createOrder(createOrderData);
 
           emptyCart(() => {
-            console.log("Cart emptied successfully");
+            // console.log("Cart emptied successfully");
             navigate("/");
           });
         } else {
@@ -140,12 +141,13 @@ const Checkout = ({ products = [] }) => {
 
       <h2 className='text-gray-600'>Delivery Address</h2>
       <textarea
+        placeholder='Type here...'
         name='address'
         value={data.address}
         onChange={(e) =>
           setData((prevData) => ({ ...prevData, address: e.target.value }))
         }
-        className='border h-[5vh]'
+        className='border min-h-[15vh] p-2'
       ></textarea>
       {/* Show Payment Status */}
       {paymentStatus && (
