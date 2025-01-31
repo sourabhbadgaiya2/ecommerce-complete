@@ -1,7 +1,3 @@
-I have updated the **README.md** file to include the **Forgot Password** feature in the authentication section. Here is the final version:
-
----
-
 # 🛍️ E-Commerce Frontend
 
 This is the **frontend** for an **eCommerce** web application built with **React.js**, **Redux**, **Axios**, and **Tailwind CSS**. It connects to a backend running on `http://localhost:3000`.
