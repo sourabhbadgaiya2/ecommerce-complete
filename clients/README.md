@@ -1,7 +1,3 @@
-I have updated the **README.md** file to include the **Forgot Password** feature in the authentication section. Here is the final version:
-
----
-
 # 🛍️ E-Commerce Frontend
 
 This is the **frontend** for an **eCommerce** web application built with **React.js**, **Redux**, **Axios**, and **Tailwind CSS**. It connects to a backend running on `http://localhost:3000`.
@@ -217,24 +213,3 @@ To build the project for production, run:
 ```bash
 npm run build
 ```
-
-### 🔄 Deployment Options:
-
-- **Vercel:** `vercel deploy`
-- **Netlify:** `netlify deploy`
-- **Firebase Hosting**
-- **AWS S3 + CloudFront**
-
----
-
-## 🤝 Contribution
-
-Feel free to contribute!
-
-1. Fork the repo
-2. Create a new branch (`feature-branch`)
-3. Commit changes (`git commit -m "Added feature"`)
-4. Push to the branch (`git push origin feature-branch`)
-5. Create a Pull Request
-
----
