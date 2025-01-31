@@ -850,3 +850,282 @@ PUT /api/users/update/:id
 - `400 Bad Request`: Invalid request or user not found
 - `401 Unauthorized`: Missing or invalid authentication token
 - `500 Internal Server Error`: Server error
+
+## Create Order
+
+**Purpose**: Create a new order for the authenticated user.
+
+### POST /api/orders/create
+
+Requires authentication.
+
+#### Request Body
+
+| Field         | Type   | Description                  |
+| ------------- | ------ | ---------------------------- |
+| products      | array  | Array of product objects     |
+| transactionId | string | Transaction ID for the order |
+| amount        | number | Total amount for the order   |
+
+#### Example Request
+
+```json
+{
+  "products": [
+    {
+      "_id": "product_id_1",
+      "name": "Product 1",
+      "description": "Description of Product 1",
+      "stock": 2
+    },
+    {
+      "_id": "product_id_2",
+      "name": "Product 2",
+      "description": "Description of Product 2",
+      "stock": 1
+    }
+  ],
+  "transactionId": "txn_123456",
+  "amount": 150.0
+}
+```
+
+#### Success Response (201 Created)
+
+```json
+{
+  "message": "Order created successfully",
+  "order": {
+    "_id": "order_id",
+    "products": ["product_id_1", "product_id_2"],
+    "user": "user_id",
+    "transaction_id": "txn_123456",
+    "amount": 150.0,
+    "status": "Not processed",
+    "createdAt": "2023-12-25T10:00:00.000Z",
+    "updatedAt": "2023-12-25T10:00:00.000Z"
+  },
+  "user": {
+    "_id": "user_id",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "user",
+    "history": [
+      {
+        "_id": "product_id_1",
+        "name": "Product 1",
+        "description": "Description of Product 1",
+        "stock": 2,
+        "transactionId": "txn_123456",
+        "amount": 150.0
+      },
+      {
+        "_id": "product_id_2",
+        "name": "Product 2",
+        "description": "Description of Product 2",
+        "stock": 1,
+        "transactionId": "txn_123456",
+        "amount": 150.0
+      }
+    ],
+
+    "createdAt": "2023-12-25T10:00:00.000Z",
+    "updatedAt": "2023-12-25T10:00:00.000Z"
+  },
+  "productUpdates": {
+    "n": 2,
+    "nModified": 2,
+    "ok": 1
+  }
+}
+```
+
+#### Error Responses
+
+**401 Unauthorized**
+
+```json
+{
+  "message": "Unauthorized! Token missing."
+}
+```
+
+**500 Internal Server Error**
+
+```json
+{
+  "message": "Error in createOrder: error_message"
+}
+```
+
+## Get All Orders
+
+**Purpose**: Retrieve a list of all orders. Admin access required.
+
+### GET /api/orders/all-order-list
+
+Requires authentication and admin privileges.
+
+#### Success Response (200 OK)
+
+```json
+{
+  "message": "All order list read",
+  "list": [
+    {
+      "_id": "order_id_1",
+      "products": [
+        {
+          "_id": "product_id_1",
+          "name": "Product 1",
+          "price": 50.0,
+          "quantity": 2
+        },
+        {
+          "_id": "product_id_2",
+          "name": "Product 2",
+          "price": 50.0,
+          "quantity": 1
+        }
+      ],
+      "user": {
+        "_id": "user_id",
+        "name": "John Doe",
+        "address": "123 Main St"
+      },
+      "transaction_id": "txn_123456",
+      "amount": 150.0,
+      "status": "Not processed",
+      "createdAt": "2023-12-25T10:00:00.000Z",
+      "updatedAt": "2023-12-25T10:00:00.000Z"
+    }
+    // ... more orders
+  ]
+}
+```
+
+#### Error Responses
+
+**401 Unauthorized**
+
+```json
+{
+  "message": "Unauthorized! Token missing."
+}
+```
+
+**403 Forbidden**
+
+```json
+{
+  "message": "Forbidden! Admin access required."
+}
+```
+
+**500 Internal Server Error**
+
+```json
+{
+  "message": "Error in allOrderList: error_message"
+}
+```
+
+# Braintree Payment API Documentation
+
+## Generate Client Token
+
+**Purpose**: Generate a client token for initializing the Braintree SDK on the frontend.
+
+### GET /api/braintree/generate_token
+
+#### Authentication
+
+- Requires valid JWT token
+- Uses `authMiddleware`
+
+#### Success Response (200 OK)
+
+```json
+{
+  "clientToken": "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiJ7....",
+  "success": true
+}
+```
+
+#### Error Response (401 Unauthorized)
+
+```json
+{
+  "message": "Unauthorized! Token missing."
+}
+```
+
+## Process Payment
+
+**Purpose**: Process a payment transaction using Braintree payment gateway.
+
+### POST /api/braintree/payment
+
+#### Authentication
+
+- Requires valid JWT token
+- Uses
+
+authMiddleware
+
+#### Request Body
+
+| Field              | Type   | Description                                |
+| ------------------ | ------ | ------------------------------------------ |
+| paymentMethodNonce | string | Payment method nonce from Braintree client |
+| amount             | number | Transaction amount                         |
+
+#### Example Request
+
+```json
+{
+  "paymentMethodNonce": "fake-valid-nonce",
+  "amount": "99.99"
+}
+```
+
+#### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "transactionId": "q2x4v8z9",
+  "amount": "99.99",
+  "message": "Payment processed successfully!"
+}
+```
+
+#### Error Responses
+
+**401 Unauthorized**
+
+```json
+{
+  "message": "Unauthorized! Token missing."
+}
+```
+
+**500 Internal Server Error**
+
+```json
+{
+  "success": false,
+  "message": "Payment processing failed."
+}
+```
+
+#### Notes
+
+- All amounts should be provided as strings or numbers with up to 2 decimal places
+- Payment method nonce is generated on the client side using Braintree SDK
+- Transactions are automatically submitted for settlement
+- Uses Braintree Sandbox environment for testing
+
+```
+
+```

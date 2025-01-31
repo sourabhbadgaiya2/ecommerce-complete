@@ -25,7 +25,6 @@ export const processPayment = async (req, res, next) => {
 
     // Check if the transaction was successful
     if (newTransaction.success) {
-      // console.log("Transaction successful:", newTransaction);
       return res.status(200).json({
         success: true,
         transactionId: newTransaction.transaction.id,
@@ -33,7 +32,6 @@ export const processPayment = async (req, res, next) => {
         message: "Payment processed successfully!",
       });
     } else {
-      // Handle transaction failure
       console.error("Transaction failed:", newTransaction.message);
       return res.status(500).json({
         success: false,
