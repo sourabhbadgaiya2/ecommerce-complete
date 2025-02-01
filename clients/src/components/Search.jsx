@@ -90,10 +90,21 @@ const Search = () => {
       </form>
 
       {/* Search Results */}
-      <div className='search-results flex gap-3 border-b'>
-        {result && result.length > 0
-          ? result.map((product, i) => <Card key={i} product={product} />)
-          : ""}
+      <div className='search-results flex flex-col gap-3 border-b'>
+        {result === null ? (
+          "" // Initially kuch nahi dikhayenge
+        ) : result.length > 0 ? (
+          <>
+            {result.map((product, i) => (
+              <Card key={i} product={product} />
+            ))}
+            <p className='text-lg font-semibold text-gray-700 mt-4'>
+              New Arrivals
+            </p>
+          </>
+        ) : (
+          <p className='text-gray-500'>No product found</p>
+        )}
       </div>
     </div>
   );
