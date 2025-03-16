@@ -21,7 +21,7 @@ export const productsCreate = async (req, res, next) => {
       // Call the service to create the product
       const product = await createProduct(fields, files);
 
-      res.status(200).json({
+      res.status(201).json({
         message: "Product created successfully",
         product,
       });
@@ -32,24 +32,62 @@ export const productsCreate = async (req, res, next) => {
   });
 };
 
+// export const updateProducts = async (req, res, next) => {
+//   const form = formidable({ keepExtensions: true });
+
+//   console.log(form, "Form Data");
+
+//   form.parse(req, async (err, fields, files) => {
+//     if (err) {
+//       return res.status(400).json({ message: "Error parsing the form" });
+//     }
+
+//     try {
+//       const productId = req.params.id; // Get the product ID from params
+//       const updatedProduct = await updateProductById(productId, fields, files); // Call the service function
+
+//       res.status(200).json({
+//         message: "Product updated successfully",
+//         product: updatedProduct,
+//       });
+//     } catch (error) {
+//       console.log(error.message);
+//       next(error);
+//     }
+//   });
+// };
+
 export const updateProducts = async (req, res, next) => {
   const form = formidable({ keepExtensions: true });
 
+  // console.log("📥 Incoming Form Data...");
+
   form.parse(req, async (err, fields, files) => {
     if (err) {
+      // console.error("❌ Form Parsing Error:", err);
       return res.status(400).json({ message: "Error parsing the form" });
     }
 
+    // 🛠 Debugging: Check what data is coming in fields & files
+    // console.log("🔹 Fields:", fields);
+    // console.log("📂 Files:", files);
+
     try {
       const productId = req.params.id; // Get the product ID from params
+
+      // 🛠 Debugging: Check if productId is valid
+      // console.log("🆔 Product ID:", productId);
+
       const updatedProduct = await updateProductById(productId, fields, files); // Call the service function
+
+      console.log("✅ Product Updated:", updatedProduct);
 
       res.status(200).json({
         message: "Product updated successfully",
         product: updatedProduct,
       });
     } catch (error) {
-      console.log(error.message);
+      console.error("❌ Update Product Error:", error.message);
       next(error);
     }
   });

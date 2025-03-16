@@ -53,7 +53,6 @@ import User from "../models/user.model.js";
 //   }
 // };
 
-
 export const createOrderService = async (
   products,
   transactionId,
@@ -78,7 +77,7 @@ export const createOrderService = async (
       _id: item._id, // Ensure correct _id field
       name: item.name,
       description: item.description,
-      stock: item.stock, // Corrected property
+      stock: item.quantity, // Corrected property
       transactionId,
       amount,
     }));
@@ -94,8 +93,8 @@ export const createOrderService = async (
     // 🟢 Step 4: Decrease product stock and update sold count
     const bulkOps = products.map((item) => ({
       updateOne: {
-        filter: { _id: item.productId }, // Ensure correct _id reference
-        update: { $inc: { stock: -item.stock, sold: item.stock } },
+        filter: { _id: item._id },
+        update: { $inc: { stock: -item.quantity, sold: item.quantity } },
       },
     }));
 

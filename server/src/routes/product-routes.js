@@ -23,15 +23,15 @@ router.post(
   productInputValidator
 );
 
-router.get("/categories", authMiddleware, getCategories);
+router.get("/categories", getCategories);
 
-router.get("/product", authMiddleware, getAllProduct);
+router.get("/product", getAllProduct);
 
-router.get("/search", authMiddleware, listSearch);
+router.get("/search", listSearch);
 
-router.get("/images/:id", authMiddleware, showImages);
+router.get("/images/:id", showImages);
 
-router.get("/get-by-id/:id", authMiddleware, productsById);
+router.get("/get-by-id/:id", productsById);
 
 router.delete("/delete/:id", authMiddleware, isAdminAuth, removeProducts);
 

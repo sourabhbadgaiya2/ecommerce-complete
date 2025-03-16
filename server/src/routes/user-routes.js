@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/get-by-id", authMiddleware, getUserById);
 
-router.put("/update/:id", authMiddleware, updateUser);
+router.put("/update", authMiddleware, updateUser);
 
 router.get("/orders-by-user", authMiddleware, purchaseHistory);
 

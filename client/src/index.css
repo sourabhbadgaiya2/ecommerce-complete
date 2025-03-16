@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* Smooth transition when switching between Sign Up & Sign In */
+.fade-appear,
+.fade-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.fade-appear-active,
+.fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Ensure full-height container */
+.min-h-screen {
+    min-height: 100vh;
+}
+
+/* Adjustments for form inputs */
+.signup-input {
+    outline: none;
+    border: 1px solid #ccc;
+    padding: 10px;
+    /* border-radius: 5px; */
+    transition: border 0.2s ease-in-out;
+}
+
+input:focus {
+    border-color: #007bff;
+}
+
+/* Google button hover effect */
+button:hover {
+    opacity: 0.9;
+}

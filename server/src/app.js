@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 // Import Routes
 import config from "./config/env.config.js";
+import cartRoutes from "./routes/cart-routes.js";
 import userRoutes from "./routes/user-routes.js";
 import authRoutes from "./routes/auth-routes.js";
 import ErrorHandler from "./utils/ErrorHandler.js";
@@ -33,6 +34,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/cart", cartRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/braintree", brainTreeRoutes);
 app.use("/api/categories", categoryRoutes);
