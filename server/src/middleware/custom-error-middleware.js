@@ -3,7 +3,7 @@ const errorHandler = (err, req, res, next) => {
 
   res.status(statusCode).json({
     message: err.message || "Internal Server Error",
-    errName: err.name || "UnknownError", 
+    errName: err.name || "UnknownError",
   });
 };
 

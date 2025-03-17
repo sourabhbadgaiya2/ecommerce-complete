@@ -4,7 +4,8 @@ import config from "../config/env.config.js";
 const redisClient = redis.createClient({
   socket: {
     host: config.REDIS_HOST,
-    port: config.REDIS_PORT,
+    // port: config.REDIS_PORT,
+    // pass: config.REDIS_PASS,
     timeout: config.REDIS_TIME,
   },
 });

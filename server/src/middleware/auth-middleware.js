@@ -3,6 +3,7 @@ import redisClient from "../config/redis-client.js";
 
 export const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
+
   if (!token) {
     return res.status(401).json({ message: "Unauthorized! Token missing." });
   }
@@ -23,7 +24,6 @@ export const authMiddleware = async (req, res, next) => {
   } catch (error) {
     next(error);
     console.log(error.message, "middleware");
-    
   }
 };
 
