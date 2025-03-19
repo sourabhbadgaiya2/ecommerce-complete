@@ -1,40 +1,35 @@
 import Redis from "ioredis";
 import config from "../config/env.config.js";
 
-// Redis Client Configuration
-const redisClient = new Redis({
-  host: config.REDIS_HOST,
-  port: config.REDIS_PORT,
-  password: config.REDIS_PASS,
-  connectTimeout: config.REDIS_TIME || 10000, // Fallback to 10s if not defined
-  retryStrategy: (times) => {
-    const delay = Math.min(times * 50, 2000);
-    console.log(`Reconnecting to Redis in ${delay} ms...`);
-    return delay;
+// Upstash Redis Client Configuration using URL
+const redisClient = new Redis(config.UPSTASH_REDIS_URL, {
+  tls: {
+    rejectUnauthorized: false, // For secure connection, optional depending on cert
   },
-  maxRetriesPerRequest: 3, // Avoid indefinite retries
 });
 
 // Connection Events
 redisClient.on("connect", () => {
-  console.log("✅ Redis connected successfully.");
+  console.log("✅ Upstash Redis connected successfully.");
 });
 
 redisClient.on("error", (err) => {
-  console.error("❗ Redis connection error:", err);
+  console.error("❗ Upstash Redis connection error:", err);
 });
 
 redisClient.on("reconnecting", (time) => {
-  console.warn(`⚠️ Attempting to reconnect to Redis... Attempt: ${time}`);
+  console.warn(
+    `⚠️ Attempting to reconnect to Upstash Redis... Attempt: ${time}`
+  );
 });
 
 redisClient.on("end", () => {
-  console.warn("⚠️ Redis connection closed.");
+  console.warn("⚠️ Upstash Redis connection closed.");
 });
 
 // Graceful Shutdown
 process.on("SIGINT", async () => {
-  console.log("🛑 Closing Redis connection...");
+  console.log("🛑 Closing Upstash Redis connection...");
   await redisClient.quit();
   process.exit(0);
 });
