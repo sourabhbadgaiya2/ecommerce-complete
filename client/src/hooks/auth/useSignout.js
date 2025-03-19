@@ -12,9 +12,9 @@ const useSignout = () => {
   const signout = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.post("/api/auth/signout");
-      localStorage.removeItem("token");
-      navigate("/");
+      const response = await axios.get("/api/auth/signout");
+      // localStorage.removeItem("token");
+      // navigate("/");
       toast.success(response.data.message);
     } catch (error) {
       handleError(error);

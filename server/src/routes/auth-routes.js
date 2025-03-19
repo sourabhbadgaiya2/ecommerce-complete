@@ -18,7 +18,7 @@ router.post("/signup", userSignupValidator, userSignup);
 
 router.post("/signin", userSigninValidator, userSignin);
 
-router.post("/signout", authMiddleware, userSignout);
+router.get("/signout", authMiddleware, userSignout);
 
 router.post("/sendmail", userSendMail);
 

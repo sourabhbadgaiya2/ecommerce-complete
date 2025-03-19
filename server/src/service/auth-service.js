@@ -39,9 +39,16 @@ export const signInUser = async (email, password) => {
 };
 
 export const signOutUser = async (token) => {
-  const result = await redisClient.set(`blacklist_${token}`, "true", {
-    EX: 3600, // Token will be blacklisted for 1 hour
-  });
+  // const result = await redisClient.set(`blacklist_${token}`, "true", {
+  //   EX: 3600, // Token will be blacklisted for 1 hour
+  // });
+
+  const result = await redisClient.set(
+    `blacklist_${token}`,
+    "true",
+    "EX",
+    3600
+  );
 
   if (!result) {
     throw new ErrorHandler("Failed to blacklist the token");
