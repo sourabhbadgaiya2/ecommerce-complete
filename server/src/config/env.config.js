@@ -6,6 +6,7 @@ const _config = {
   BRAIN_TREE_PUBLIC_KEY: process.env.BRAIN_TREE_PUBLIC_KEY,
   BRAIN_TREE_PRIVATE_KEY: process.env.BRAIN_TREE_PRIVATE_KEY,
   UPSTASH_REDIS_URL: process.env.UPSTASH_REDIS_URL,
+  NODE_ENV: process.env.NODE_ENV,
   // REDIS_HOST: process.env.REDIS_HOST,
   // REDIS_PORT: process.env.REDIS_PORT,
   // REDIS_Time: process.env.REDIS_Time,
