@@ -4,20 +4,21 @@ import Home from "../pages/Home";
 import AuthForm from "../pages/AuthFrom";
 import Cart from "../pages/Cart";
 import CreateProduct from "../pages/admin/CreateProduct ";
-import AdminDashboard from "../components/AdminDashboard";
-import Protected from "../components/Protected";
+import Checkout from "../pages/Checkout";
+
 import ManageProducts from "../pages/admin/ManageProducts";
+import Protected from "../components/Protected";
 import Homes from "../pages/Homes";
 import { useSelector } from "react-redux";
 import AboutUs from "../pages/AboutUs";
 import ContactForm from "../pages/ContactForm";
-import ManageCategories from "../pages/admin/ManageCategories";
 import ProductDetails from "../pages/ProductDetails";
 import UserDashboard from "../pages/UserDashboard";
-import Checkout from "../pages/Checkout";
+import ManageCategories from "../pages/admin/ManageCategories";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import AllOrders from "../pages/admin/AllOrders";
 import Unauthorized from "../pages/Unauthorized";
 import NotFound from "../pages/NotFound";
-import AllOrders from "../pages/admin/AllOrders";
 
 const AppRoutes = () => {
   const { user } = useSelector((state) => state.users);

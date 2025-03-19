@@ -1,21 +1,21 @@
-import axios from "../../config/axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../../store/features/alertSlice";
+import axios from "../../config/axios";
 import { handleError } from "../../helpers/errorHandler";
 
-const useSignout = () => {
-  const navigate = useNavigate();
+const useDeleteUserById = () => {
   const dispatch = useDispatch();
 
-  const signout = async () => {
+  const deleteUser = async (userId) => {
+    console.log(userId, "dfghjk");
+
     try {
       dispatch(ShowLoading());
-      const response = await axios.get("/api/auth/signout");
-      // localStorage.removeItem("token");
-      navigate("/");
-      toast.success(response.data.message);
+
+      const response = await axios.delete(`/api/users/delete/${userId}`);
+
+      return toast.success(response.data.message);
     } catch (error) {
       handleError(error);
     } finally {
@@ -23,7 +23,7 @@ const useSignout = () => {
     }
   };
 
-  return { signout };
+  return { deleteUser };
 };
 
-export default useSignout;
+export default useDeleteUserById;

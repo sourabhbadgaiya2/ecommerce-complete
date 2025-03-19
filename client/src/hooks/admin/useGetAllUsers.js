@@ -1,21 +1,19 @@
-import axios from "../../config/axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../../store/features/alertSlice";
+import axios from "../../config/axios";
 import { handleError } from "../../helpers/errorHandler";
 
-const useSignout = () => {
-  const navigate = useNavigate();
+const useGetAllUsers = () => {
   const dispatch = useDispatch();
 
-  const signout = async () => {
+  const getAllUsers = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.get("/api/auth/signout");
-      // localStorage.removeItem("token");
-      navigate("/");
-      toast.success(response.data.message);
+      const response = await axios.get(`/api/users/get-all-user`);
+
+      // toast.success(response.data.message || "Profile updated successfully!");
+      return response.data.users;
     } catch (error) {
       handleError(error);
     } finally {
@@ -23,7 +21,7 @@ const useSignout = () => {
     }
   };
 
-  return { signout };
+  return { getAllUsers };
 };
 
-export default useSignout;
+export default useGetAllUsers;

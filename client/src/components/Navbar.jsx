@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FaCircleUser, FaCartArrowDown, FaBars } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IoLogOutOutline } from "react-icons/io5";
 import { SetUser } from "../store/features/userSlice";
 import useSignout from "../hooks/auth/useSignout";
-// import { persistor } from "../store/store";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,14 +13,8 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { signout } = useSignout();
-
   const [cartCount, setCartCount] = useState(0);
 
-  const windowClick = () => {
-    window.addEventListener("click", setMenuOpen(false));
-  };
-
-  // ✅ Update cart count from localStorage
   const updateCartCount = () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartCount(cart.length);
@@ -29,19 +22,15 @@ const Navbar = () => {
 
   useEffect(() => {
     updateCartCount();
-
-    // ✅ Listen for localStorage changes
     const handleStorageChange = (e) => {
       if (e.key === "cart") updateCartCount();
     };
     window.addEventListener("storage", handleStorageChange);
-
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
-  // ✅ Update every 500ms (for same-tab changes)
   useEffect(() => {
     const interval = setInterval(updateCartCount, 500);
     return () => clearInterval(interval);
@@ -50,28 +39,32 @@ const Navbar = () => {
   const handleLogout = async () => {
     await signout();
     dispatch(SetUser(null));
-    // persistor.purge();
     navigate("/");
   };
 
+  const activeClass = ({ isActive }) =>
+    isActive ? "text-green-500 font-semibold" : "text-black";
+
   return (
     <nav className='flex justify-between items-center border-b border-zinc-400 p-4 relative'>
-      <h1 className='font-bold text-xl'>Exclusive</h1>
+      <Link to={"/"}>
+        <h1 className='font-bold text-xl'>Exclusive</h1>
+      </Link>
 
       {/* ✅ Desktop Navigation Links */}
       <div className='hidden md:flex gap-10'>
-        <NavLink to='/' className='pb-1 transition-all'>
+        <NavLink to='/' className={activeClass}>
           Home
         </NavLink>
         {user && (
-          <NavLink to='/dashboard' className='pb-1 transition-all'>
+          <NavLink to='/dashboard' className={activeClass}>
             Dashboard
           </NavLink>
         )}
-        <NavLink to='/contact' className='pb-1 transition-all'>
+        <NavLink to='/contact' className={activeClass}>
           Contact
         </NavLink>
-        <NavLink to='/about' className='pb-1 transition-all'>
+        <NavLink to='/about' className={activeClass}>
           About
         </NavLink>
       </div>
@@ -104,37 +97,53 @@ const Navbar = () => {
       </div>
 
       {/* ✅ Mobile Menu Button */}
-      <button className='md:hidden text-2xl' onClick={() => setMenuOpen(true)}>
+      <button
+        className='md:hidden text-2xl cursor-pointer'
+        onClick={() => setMenuOpen(true)}
+      >
         <FaBars />
       </button>
 
       {/* ✅ Mobile Menu */}
       {menuOpen && (
-        <div
-          onClick={windowClick}
-          className='fixed inset-0 backdrop-blur-[1px] bg-opacity-50 flex justify-end z-50'
-        >
-          <div className='w-3xs bg-white h-full p-5 shadow-lg'>
+        <div className='fixed inset-0 backdrop-blur-[1px] bg-opacity-50 flex justify-end z-50'>
+          <div className='w-3xs bg-white h-full p-5 shadow-lg text-left'>
             <button
-              className='absolute top-4 right-4 text-3xl'
+              className='absolute cursor-pointer top-4 right-4 text-3xl'
               onClick={() => setMenuOpen(false)}
             >
               <IoMdClose />
             </button>
 
-            <div className='flex flex-col items-center gap-6 mt-10'>
-              <NavLink to='/' onClick={() => setMenuOpen(false)}>
+            <div className='flex flex-col items-center  gap-6 mt-10'>
+              <NavLink
+                to='/'
+                onClick={() => setMenuOpen(false)}
+                className={activeClass}
+              >
                 Home
               </NavLink>
               {user && (
-                <NavLink to='/dashboard' onClick={() => setMenuOpen(false)}>
+                <NavLink
+                  to='/dashboard'
+                  onClick={() => setMenuOpen(false)}
+                  className={activeClass}
+                >
                   Dashboard
                 </NavLink>
               )}
-              <NavLink to='/contact' onClick={() => setMenuOpen(false)}>
+              <NavLink
+                to='/contact'
+                onClick={() => setMenuOpen(false)}
+                className={activeClass}
+              >
                 Contact
               </NavLink>
-              <NavLink to='/about' onClick={() => setMenuOpen(false)}>
+              <NavLink
+                to='/about'
+                onClick={() => setMenuOpen(false)}
+                className={activeClass}
+              >
                 About
               </NavLink>
             </div>
@@ -146,7 +155,7 @@ const Navbar = () => {
                 className='relative'
                 onClick={() => setMenuOpen(false)}
               >
-                <FaCartArrowDown className='text-3xl' />
+                Cart
                 {cartCount > 0 && (
                   <span className='absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 rounded-full'>
                     {cartCount}

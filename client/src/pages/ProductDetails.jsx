@@ -18,6 +18,12 @@ const ProductDetails = () => {
   const { product } = useProduct();
   const { products } = getAllProducts(); // Get all products
   const navigate = useNavigate();
+  const [refresh, setRefresh] = useState(false);
+
+  if (refresh) {
+    navigate(0);
+    setRefresh(false);
+  }
 
   const [cart, setCart] = useState([]);
   const { user } = useSelector((state) => state.users);
@@ -126,11 +132,11 @@ const ProductDetails = () => {
             <span className='text-red-500'>${totalAmount.toFixed(2)}</span>
           </div>
           <hr />
-          <div className='mt-4 flex gap-4'>
+          <div className='mt-4 flex flex-wrap gap-4'>
             <div className='flex items-center border rounded-lg overflow-hidden'>
               <button
                 onClick={decreaseQuantity}
-                className='bg-gray-200 px-3 py-2'
+                className='bg-gray-200 cursor-pointer px-3 py-2'
               >
                 <FaMinus />
               </button>
@@ -138,11 +144,11 @@ const ProductDetails = () => {
                 type='text'
                 value={quantity}
                 readOnly
-                className='w-12 text-center border-x'
+                className='w-12 cursor-pointer text-center border-x'
               />
               <button
                 onClick={increaseQuantity}
-                className='bg-gray-200 px-3 py-2'
+                className='bg-gray-200 cursor-pointer px-3 py-2'
               >
                 <FaPlus />
               </button>
@@ -159,7 +165,7 @@ const ProductDetails = () => {
             ) : (
               <button
                 onClick={addToCart}
-                className='bg-blue-500 text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-blue-600 transition'
+                className='bg-blue-500 cursor-pointer text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-blue-600 transition'
               >
                 <FaShoppingCart /> Add to Cart
               </button>
@@ -167,7 +173,7 @@ const ProductDetails = () => {
 
             <button
               onClick={buyNow}
-              className='bg-green-500 text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-green-600 transition'
+              className='bg-green-500 cursor-pointer text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-green-600 transition'
             >
               <FaCreditCard /> Buy Now
             </button>
@@ -215,13 +221,17 @@ const ProductDetails = () => {
               >
                 <Link
                   to={`/product-details/${item._id}`}
-                  className='text-blue-500 hover:underline mt-2 inline-block'
+                  onClick={() => setRefresh(true)}
+                  className=' hover:underline mt-2 inline-block'
                 >
                   <ShowImages
                     imgClass='h-[25vh] w-full text-center'
                     item={item}
                   />
-                  <h3 className='text-lg font-semibold mt-2'>{item.name}</h3>
+
+                  <h3 className='text-lg font-semibold mt-2 text-blue-500'>
+                    {item.name}
+                  </h3>
                   <p className='text-red-500 font-bold'>${item.price}</p>
                 </Link>
               </div>

@@ -3,20 +3,20 @@
 // import { HideLoading, ShowLoading } from "../../store/features/alertSlice";
 // import axios from "../../config/axios";
 // import { handleError } from "../../helpers/errorHandler";
-// import { useParams } from "react-router-dom";
 
 // const useProfileUpdate = () => {
 //   const dispatch = useDispatch();
-//   // const { userId } = useParams();
 
-//   const updateUser = async ({ userId, updateUser }) => {
+//   const updateUser = async ({ updatedUser }) => {
 //     try {
 //       dispatch(ShowLoading());
-//       const response = await axios.put(`/api/users/update/${userId}`, {
-//         updateUser,
-//       });
+
+//       // ✅ Correct API Call
+//       const response = await axios.put(`/api/users/update`, updatedUser);
+
+//       toast.success(response.data.message || "Profile updated successfully!");
+
 //       return response.data.user;
-//       // toast.success(response.data.message);
 //     } catch (error) {
 //       handleError(error);
 //     } finally {
@@ -40,16 +40,27 @@ const useProfileUpdate = () => {
 
   const updateUser = async ({ updatedUser }) => {
     try {
+      if (!updatedUser?._id) {
+        return toast.error("Invalid user data!");
+      }
+
       dispatch(ShowLoading());
 
-      // ✅ Correct API Call
-      const response = await axios.put(`/api/users/update`, updatedUser);
+      // ✅ Specific API Call with User ID
+      const response = await axios.put(
+        `/api/users/update/${updatedUser._id}`,
+        updatedUser
+      );
 
-      toast.success(response.data.message || "Profile updated successfully!");
-
-      return response.data.user;
+      if (response?.data?.user) {
+        toast.success(response.data.message || "Profile updated successfully!");
+        return response.data.user;
+      } else {
+        throw new Error("User update failed!");
+      }
     } catch (error) {
       handleError(error);
+      toast.error(error.message || "Something went wrong!");
     } finally {
       dispatch(HideLoading());
     }
