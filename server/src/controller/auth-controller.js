@@ -35,7 +35,7 @@ export const userSignin = async (req, res, next) => {
       expires: new Date(Date.now() + 3 * 60 * 60 * 1000),
       httpOnly: true,
       secure: config.NODE_ENV === "production", // Secure in production
-      sameSite: "Strict", // Protects against CSRF attacks
+      sameSite: "none", // Protects against CSRF attacks
     });
 
     res.status(200).json({
